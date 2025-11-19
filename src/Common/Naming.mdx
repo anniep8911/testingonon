@@ -1,0 +1,161 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="코드규약/네이밍규칙" />
+
+# 🧱 현대백화점 면세점 코드북 네이밍 가이드 (BEM 규칙)
+
+네이밍 규칙은 **BEM(Block__Element--Modifier)** 형식으로 진행한다.  
+네이밍 규칙은 크게 **태그 규칙**, **속성 규칙**으로 나뉜다.  
+
+'block' 혹은 'element' 안에는 kebab-case('-')를 사용할 수 있다.  
+예) 'content-pizza__header-pickle--active'  
+
+⚠️ **id는 절대 사용 금지**  
+(예외 케이스: 'form' 안에서 'label-input' 바인딩만 허용)  
+모든 태그에는 'class'명으로 네이밍하도록 한다.  
+
+블록과 엘리먼트 사이는 '__' (언더바 2개),  
+엘리먼트와 모디파이어 사이는 '--' (하이픈 2개),  
+케밥 형식의 이름은 '-' (하이픈 1개)로 구분한다.  
+
+---
+
+## 🏷️ 태그 규칙
+
+### 1️⃣ Block의 기준  
+- 'body' 아래의 1차 영역  
+  예: header, footer, content, main, banner, section 등  
+- 'form', 'modal' 등 독립적 성격을 갖는 블록 영역  
+
+### 2️⃣ Element의 기준  
+- 블록 기준으로 발생하는 요소영역  
+ ```
+  예시)  
+    header__nav  
+    header__gnb  
+    footer__logo  
+    main__texts  
+    article__image
+```
+
+### 3️⃣ Modifier의 기준  
+- element 기준으로 종속성이 있는 스타일  
+```
+예시)
+header__button--active  
+toast__msg--danger  
+article__button--lg  
+form__check--on  
+```
+
+---
+
+## 💬 예시 코드  
+
+> <span style={{ color: 'red' }}>Block</span> / <span style={{ color: 'blue' }}>Element</span>  
+
+<pre><code class="language-html">
+&lt;main class=" <span style={{ color: 'red' }}>container</span>"&gt;
+&nbsp;&nbsp;&lt;article class="<span style={{ color: 'red' }}>container__</span><span style={{ color: 'blue' }}>location</span>"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;section class="<span style={{ color: 'red' }}>container__</span><span style={{ color: 'blue' }}>location-box</span>"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="https://www.hddfs.com/shop/dm/main.do" class="<span style={{ color: 'red' }}>container__</span><span style={{ color: 'blue' }}>location-home</span>"&gt;홈&lt;/a&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="<span style={{ color: 'red' }}>container__</span><span style={{ color: 'blue' }}>location-nolink</span>"&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="javascript:"&gt;이벤트&lt;/a&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/div&gt;
+&nbsp;&nbsp;&nbsp;&nbsp;&lt;/section&gt;
+&nbsp;&nbsp;&lt;/article&gt;
+&lt;/main&gt;
+</code></pre>
+
+---
+
+## 🎨 속성 규칙
+
+### 1️⃣ 디자인 가이드  
+
+디자인 가이드에서 추가된 내용은 **속성명--속성값** 형태로 작성한다.
+
+#### 🎯 icon  
+ico-zoomin--line  
+ico-msg--fill  
+
+#### 🎯 color  
+clr--dark  
+bg--point01  
+clr--point03  
+
+#### 🎯 font(size/weight)  
+hn-h1--bold  
+hn-h8--thin  
+ph-p1  
+lb-cp1--bold  
+
+---
+
+### 🎨 디자인 가이드 (2025.10.27 기준)
+
+#### 폰트 컬러  
+
+<table>
+  <tr><th>클래스</th><th>HEX</th></tr>
+  <tr><td>clr--dark</td><td>#1B1E23</td></tr>
+  <tr><td>clr--medium-dark</td><td>#3D444F</td></tr>
+  <tr><td>clr--slate-grey</td><td>#5C6677</td></tr>
+  <tr><td>clr--steel</td><td>#788497</td></tr>
+  <tr><td>clr--cool-grey-two</td><td>#ABB2BE</td></tr>
+  <tr><td>clr--silver-two</td><td>#CCD1D8</td></tr>
+  <tr><td>clr--pale-grey</td><td>#EEF0F2</td></tr>
+  <tr><td>clr--white</td><td>#FFFFFF</td></tr>
+</table>
+
+#### 배경 컬러  
+
+<table>
+  <tr><th>클래스</th><th>HEX</th></tr>
+  <tr><td>bg--dark</td><td>#1B1E23</td></tr>
+  <tr><td>bg--dark-grey</td><td>#282C34</td></tr>
+  <tr><td>bg--cool-grey</td><td>#9AA3B1</td></tr>
+  <tr><td>bg--silver</td><td>#DDE0E5</td></tr>
+  <tr><td>bg--pale-grey</td><td>#EBEBEB</td></tr>
+  <tr><td>bg--pale-grey-three</td><td>#F4F5F6</td></tr>
+  <tr><td>bg--pale-grey-four</td><td>#F7F7F7</td></tr>
+</table>
+
+#### 라인 컬러  
+
+<table>
+  <tr><th>클래스</th><th>HEX</th></tr>
+  <tr><td>ln-dark</td><td>#1B1E23</td></tr>
+  <tr><td>ln-slate-grey</td><td>#5C6677</td></tr>
+  <tr><td>ln-cool-grey-two</td><td>#ABB2BE</td></tr>
+  <tr><td>ln-silver-two</td><td>#CCD1D8</td></tr>
+  <tr><td>ln-silver</td><td>#DDE0E5</td></tr>
+  <tr><td>ln-pale-grey</td><td>#EEF0F2</td></tr>
+</table>
+
+#### 포인트 컬러  
+
+<table>
+  <tr><th>클래스</th><th>HEX</th><th>설명</th></tr>
+  <tr><td>ptc-pinkishred</td><td>#EA2829</td><td>기본 포인트</td></tr>
+  <tr><td>ptc-pink</td><td>#EA2869</td><td>서브 포인트</td></tr>
+  <tr><td>ptc-gradient</td><td>#EA2829 → #EA2869 → #CE28A5 → #A928EA</td><td>그라데이션</td></tr>
+</table>
+
+#### 토스트 컬러  
+
+<table>
+  <tr><th>클래스</th><th>HEX</th></tr>
+  <tr><td>ts-reddish-orange</td><td>#F4511E</td></tr>
+  <tr><td>ts-cerulean</td><td>#0288D1</td></tr>
+</table>
+
+---
+
+### 2️⃣ 상태 관련  
+
+fade in/out 과 같은 상태 관련 내용은 'is--상태' 형태로 입력한다.  
+
+예시:  
+is--show  
+is--hide
