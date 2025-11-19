@@ -1,0 +1,110 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="코드규약/주석규칙/Event" />
+
+## 공통 
+최상단에 다음과 같은 형식으로 주석을 추가한다. <br/>
+작업자, TYPE으로 구성이 되며 아래에는 BO에 등록된 이벤트관련 키값을 넣으면 된다. 
+```html
+<!-- 
+    작업자: 이름 
+    TYPE : 작업타입 (예/ 이벤트(온라인), 주특기 등)
+    이벤트(온라인): 0006924 
+    H.oney : 0006924
+    룰렛이벤트 : 0006925
+    블랙등급업 : 0006926
+    임직원등급업 : 0006927 
+-->
+```
+
+작업내용은 반드시 레이아웃명, 컴포넌트명으로 구성한다. <br/>
+```txt
+ component: 마놀로블라닉 베스트셀러
+```
+
+## HTML
+diff관련 주석은 추가하지 않고, 아래의 keyword관련한 작업을 구분하여 추가한다. <br/>
+<sub>diff관련 업무가이드는 <a href="./?path=/docs/코드규약-html-공통-00-업무프로세스--docs" target="_blank">여기</a>에서 확인한다.</sub>
+```html
+<!-- renewal: 마놀로블라닉 베스트아이템 레이아웃 변경 -->
+<!-- component: 쿠키동의 레이어팝업 -->
+```
+
+<div style={{marginLeft:'10px', marginTop:'-20px'}}>
+    #### keyword
+    <table border="1" cellspacing="0" cellpadding="8">
+    <thead>
+        <tr>
+        <th>키워드</th>
+        <th>사용 목적 / 상황</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>renewal</td>
+        <td>기존 페이지나 기능을 개편할 때 사용. 전체 구조 변경케이스에 사용</td>
+        </tr>
+        <tr>
+        <td>layout</td>
+        <td>페이지의 전체 배치나 그리드, 레이아웃 구조를 다루는 코드 영역 구분에 사용. 예) 컨텐츠 내 베스트셀러 , 추천상품, 기타 큰 블록 구분자</td>
+        </tr>
+        <tr>
+        <td>component</td>
+        <td>독립적으로 재사용 가능한 UI 요소를 정의하거나 수정할 때 사용. 예) 모달, 폼태그 </td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+<br/>
+## CSS
+keyword를 참고하여 아래와 같은 형식의 포맷으로 작업한다 
+```css
+/* common: 주특기 공통 아이콘 */
+/* layout: 마놀로블라닉 베스트아이템 */
+/* component: 쿠키동의 레이어팝업 */
+```
+<div style={{marginLeft:'10px', marginTop:'-20px'}}>
+    #### keyword
+    <table border="1" cellspacing="0" cellpadding="8">
+    <thead>
+        <tr>
+        <th>키워드</th>
+        <th>사용 목적 / 상황</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>renewal</td>
+        <td>기존 페이지나 기능에서 전면 스타일 개편이 발생할때 사용</td>
+        </tr>
+        <tr>
+        <td>layout</td>
+        <td>페이지의 전체 배치나 그리드, 레이아웃 구조를 다루는 코드 영역 구분에 사용. 예) 컨텐츠 내 베스트셀러 , 추천상품, 기타 큰 블록 구분자</td>
+        </tr>
+        <tr>
+        <td>component</td>
+        <td>독립적으로 재사용 가능한 UI 요소를 정의하거나 수정할 때 사용. 예) 모달, 폼태그 </td>
+        </tr>
+        <tr>
+        <td>common</td>
+        <td>공통적으로 정의되는 스타일요소에 사용</td>
+        </tr>
+    </tbody>
+    </table>
+</div>
+
+<br/>
+## JavaScript
+* 자바스크립트는 자바스크립트 규약이 업데이트 될 시점에 같이 업데이트 할 예정임 (예상일정: 2025.12.02)
+
+<br/>
+## 🚫금지사항
+다음과 같은 간소화 내용은 금지한다.
+```txt
+/* nav */
+/* keyvisual */
+/* content01 */
+<!-- 박정아 작업 -->
+<!-- 2521980 2025.11.18 작업 -->
+<!-- 메인리뉴얼건 -->
+```
