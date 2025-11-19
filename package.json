@@ -1,0 +1,16 @@
+{
+  "name": "storybook-html-starter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "devDependencies": {
+    "@storybook/addon-essentials": "^8.2.4",
+    "@storybook/html-vite": "^8.2.4",
+    "marked": "^16.4.1",
+    "vite": "^5.4.0"
+  }
+}

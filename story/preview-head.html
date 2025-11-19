@@ -1,0 +1,40 @@
+<style>
+  /* layout : 첫번째 미리보기 임시삭제 */
+  .sb-anchor:nth-of-type(2){
+    display: none;
+  }
+
+  .sbdocs .sbdocs-content {
+    padding-top: 0;
+  }
+
+  summary{
+    cursor: pointer;
+  }
+</style>
+
+<script>
+
+let flag = true;
+
+document.addEventListener('DOMContentLoaded', () => {
+  let img =  document.querySelectorAll('img')
+  flag?
+  img.forEach((e,i)=>{
+    let srcPath=  e.getAttribute('src');
+    let a =  document.createElement('a');
+    a.href = srcPath;
+    a.setAttribute('target','_blank');
+    a.style.display = 'inline-block';
+    a.style.width =  e.style.width;
+    e.style.width='100%';
+    e.style.height='100%';
+    a.append(e.cloneNode());
+    e.replaceWith(a);
+    flag=false;
+
+  }):'';
+
+})
+
+</script>
