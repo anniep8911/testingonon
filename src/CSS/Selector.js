@@ -52,45 +52,15 @@ if(cat ==='element'){
     .content--01 .art--01 .texts h3{}<br/>
     .content--01 .art--01 .texts>h3{}<br/>
     .content--01 .art--01 .texts h3+h4{}<br/>
-    .content--01 .content__art ~ div<br/>
+    .content--01 .content__art ~ div{}<br/>
    `;
   
 }
-  let result = `
-        <style>
-        /* 공통 */
-        .content__wrap{}
-        .content{}
-        .content header{}
-        .content header h2{}
-        .content header h4{}
-        .content section{}
-        .content article{}
-        .content article .image{}
-        .content article .texts{}
-        .content article h2{}
-        .content article h4{}
-        .content article p{}
-
-        /* 개별 */
-        .content__wrap--01{}
-        .content--01{}
-        .content--01 header{}
-        .content--01 header h2{}
-        .content--01 header h4{}
-        .content--01 section{}
-        .content--01 article{}
-        .content--01 .art--01{}
-        .content--01 .art--01 .image{}
-        .content--01 .art--01 .texts{}
-        .content--01 .art--01 h3{}
-        .content--01 .art--01 h4{}
-        .content--01 .art--01 p{}
-        </style>
-
-     ${ele}
-      
-    `;
+  let result = `${ele}
+<style>
+${ele.replaceAll('<br/>','')}
+</style>`;
 
   return result
 }
+  

@@ -5,27 +5,8 @@ import makeStories from '../fnc.js';
 
 let path= '코드규약/CSS/공통/01.선택자';
 
-const md=(type)=>{
-  let result = ``;
-  (type ==='block')?
-  // 블록일때 표시할 내용
-    result=
-    `- class위주의 선택자 작성
-- 태그와 클래스 선택자 미사용
-- 최대 3depth의 선택자 사용
-    ` 
-: (type ==='element')?
-  result = `
-- 아이디 선택자 사용
-- 3depth 이상 선택자 사용
-- 태그와 선택자명 동시 사용
-- 자식 형제결합자 사용
-  `
-
-:
-  // 전체 공통으로 표시할 내용
-  result=
-`
+// 작성 내용은 아래의 기준에 따라서 작성할것.
+let 기본다큐먼트 =  `
 - 모든 선택자는 class위주로 작성한다 (‼️아이디 사용금지‼️)
 - 꼭 필요한 override경우를 제외하고 자식, 형제 결합자 사용금지 (+,~,>)
 - 꼭 필요한 케이스를 제외하고 태그와 함께 클래스 선택자 사용금지 (예: article.content__art.article--01)
@@ -57,7 +38,31 @@ const md=(type)=>{
   &lt;/div&gt;
   </pre>
   </div>
-`
+`;
+
+let 모범케이스다큐먼트 =`- class위주의 선택자 작성
+- 태그와 클래스 선택자 미사용
+- 최대 3depth의 선택자 사용`; 
+
+let 금지케이스다큐먼트 =  `
+- 아이디 선택자 사용
+- 3depth 이상 선택자 사용
+- 태그와 선택자명 동시 사용
+- 자식 형제결합자 사용
+`;
+
+const md=(type)=>{
+  let result = ``;
+  (type ==='block')?
+  // 블록일때 표시할 내용
+    result=모범케이스다큐먼트
+
+: (type ==='element')?
+  result = 금지케이스다큐먼트
+
+:
+  // 전체 공통으로 표시할 내용
+  result=기본다큐먼트;
   return result;
 }
 
