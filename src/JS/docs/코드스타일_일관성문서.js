@@ -48,17 +48,48 @@ const button =  $('button').text();
 console.log('버튼안의 값은 + button + '입니다.');
 </pre>
 
-<li>inline onclick 금지 (api제외)</li>
+<li>inline onclick 금지 (API 제외)</li>
+<h5>✅ Do</h5>
+<pre class="code">
+<button>클릭</button>
 
+// 스크립트 부분
+const btn = $('button');
 
-<li>함수 네이밍 규칙
-&nbsp;&nbsp;&nbsp;&nbsp;- initSomething
-&nbsp;&nbsp;&nbsp;&nbsp;- bindSomething
-&nbsp;&nbsp;&nbsp;&nbsp;- handleSomething</li>
-<li>공통 모듈/유틸 구조 통일</li>
+function handleClick() {
+  console.log('클릭 이벤트 처리');
+}   
+
+btn.on('click',handleClick);
+
+</pre>
+
+<h5>⛔ Don't</h5>
+<pre class="code" data-copy="hide">
+<button onclick="handleClick()">클릭</button>
+
+// 스크립트 부분
+function handleClick() {
+  console.log('클릭 이벤트 처리');
+}
+</pre>
+
 <li>UI 토글 패턴 통일 (classList.add/remove/toggle)</li>
+<h5>✅ Do</h5>
+<pre class="code">
+$('.element').toggleClass('active');
+</pre>
+
+<h5>⛔ Don't</h5>
+<pre class="code">
+if($('.element').hasClass('active')){
+  $('.element').css({background:'orange'});
+} else {  
+  $('.element').css({background:'transparent'});
+}
+</pre>
+
 <li>코드 작성 순서 통일 :: 변수 → 함수 → init → 이벤트  </li>
-<li>코드 작성 순서 통일 :: 변수 → 함수 → init → 이벤트</li>
 <h5>✅ Do</h5>
 <pre class="code">
 // 변수

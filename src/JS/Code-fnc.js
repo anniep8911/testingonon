@@ -1,7 +1,5 @@
 import style from './asset/style';
-import readable from './docs/코드스타일_가독성문서';
-import maintain from './docs/코드스타일_유지보수성문서';
-import consis from './docs/코드스타일_일관성문서';
+import doc from './docs/코드작성방법';
 
 export default {
   title: 'Examples/SinglePage'
@@ -11,11 +9,11 @@ export const SinglePage = (cat) => {
   let result = '';
 
   switch (cat) {
-    case 'readable':
-      result = readable;
+    case '함수선언':
+      result = doc.함수작성규칙.함수선언;
       break;
-    case 'consis':
-      result = consis;
+    case '호출순서':
+      result = doc.함수작성규칙.호출순서;
       break;
     case 'maintain':
       result = maintain;

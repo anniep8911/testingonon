@@ -1,0 +1,79 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="코드규약/JS/01.코드정렬규칙" />
+
+# VS Code 기반 Prettier 적용 가이드
+
+웹 퍼블리싱 프로젝트에서 **일관된 코드 스타일 유지**를 위해 Prettier를 VS Code에서 설정하고 사용하는 방법을 안내합니다.
+
+---
+
+### 1. Prettier 확장 설치
+
+1. VSCode에서 `Prettier`를 검색한다.
+<img src="./jsprettier01.png"/>
+3. **Prettier - Code formatter** 확장 설치한다.
+<img src="./jsprettier02.png"/>
+5. 상태 표시줄 오른쪽 아래에 `Prettier` 아이콘이 표시되는지 확인한다.
+<img src="./jsprettier03.png"/>
+
+
+### 2. 프로젝트에 Prettier 설정 파일 추가
+
+프로젝트 루트에 `prettier.config.js` 또는 `.prettierrc` 파일을 생성한 뒤 아래 기본 설정을 추가한다.
+
+~~~json
+{
+  "printWidth": 80,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "arrowParens": "always"
+}
+~~~
+
+
+
+### 3. VS Code에서 Prettier를 기본 포맷터로 설정
+
+`Ctrl + Shift + P` → **Preferences: Open User Settings (JSON)** 검색 후 아래 항목을 추가한다.
+
+~~~json
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode"
+}
+~~~
+
+
+### 4. 저장 시 자동 포맷(Format On Save) 설정
+
+VS Code 설정(Settings)에서 `format on save` 검색 후 옵션 활성화  
+또는 `settings.json`에 아래 내용 추가:
+
+~~~json
+{
+  "editor.formatOnSave": true
+}
+~~~
+
+
+### 5. 파일별 적용 범위 설정
+
+Prettier를 js에만 적용할 수 있도록 설정한다.
+
+~~~json
+{
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+}
+~~~
+
+
+### 6. Prettier 동작 확인 체크리스트
+
+- 저장 시 자동 정렬되는지 확인  
+- 상태바에 `Prettier` 아이콘이 표시되는지 확인  

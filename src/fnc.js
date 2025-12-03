@@ -9,9 +9,8 @@ export default function makeStories(SinglePage,md, types, moduleType) {
     const stories = {};
 
      const cleanCode = (html) =>
-        (moduleType ==='style')?
-        html.match(/<style[\s\S]*?<\/style>/gi)?.join('\n')
-     :
+        (moduleType ==='style')?html.match(/<style[\s\S]*?<\/style>/gi)?.join('\n')
+        :
         html
         // remove <style> blocks
         .replace(/<style[\s\S]*?<\/style>/gi, '')

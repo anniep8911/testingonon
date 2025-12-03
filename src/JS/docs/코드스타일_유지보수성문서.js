@@ -130,7 +130,6 @@ button.on('click',function(){
 </pre>
 
 </ol>
-
 `;
 
 export default maintain;
