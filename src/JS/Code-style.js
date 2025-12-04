@@ -21,6 +21,5 @@ export const SinglePage = (cat) => {
       result = maintain;
       break;
   }
-  console.log('테스팅');
   return `${style}${result}`;
 };
