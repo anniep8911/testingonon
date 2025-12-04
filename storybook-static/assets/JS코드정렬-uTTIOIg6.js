@@ -1,4 +1,4 @@
-import{j as E,M as I}from"./index-BZWE529j.js";import{useMDXComponents as R}from"./index-BMiV1mT8.js";import"./iframe-Da5wmUU-.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function i(A){const e={br:"br",code:"code",h1:"h1",h3:"h3",hr:"hr",li:"li",ol:"ol",p:"p",pre:"pre",strong:"strong",ul:"ul",...R(),...A.components};return E.jsxs(E.Fragment,{children:[E.jsx(I,{title:"코드규약/JS/01.코드정렬규칙"}),`
+import{j as E,M as I}from"./index-0Cf_q2kq.js";import{useMDXComponents as R}from"./index-BTEt9xr3.js";import"./iframe-CnIjsyjL.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function i(A){const e={br:"br",code:"code",h1:"h1",h3:"h3",hr:"hr",li:"li",ol:"ol",p:"p",pre:"pre",strong:"strong",ul:"ul",...R(),...A.components};return E.jsxs(E.Fragment,{children:[E.jsx(I,{title:"코드규약/JS/01.코드정렬규칙"}),`
 `,E.jsx(e.h1,{id:"vs-code-기반-prettier-적용-가이드",children:"VS Code 기반 Prettier 적용 가이드"}),`
 `,E.jsxs(e.p,{children:["웹 퍼블리싱 프로젝트에서 ",E.jsx(e.strong,{children:"일관된 코드 스타일 유지"}),"를 위해 Prettier를 VS Code에서 설정하고 사용하는 방법을 안내합니다."]}),`
 `,E.jsx(e.hr,{}),`
