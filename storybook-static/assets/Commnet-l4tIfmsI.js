@@ -1,4 +1,4 @@
-import{j as n,M as l}from"./index-DeD7CfoA.js";import{useMDXComponents as d}from"./index-pyNLm7ZL.js";import"./iframe-CQ1uoCmN.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function r(s){const e={code:"code",h2:"h2",h4:"h4",li:"li",p:"p",pre:"pre",ul:"ul",...d(),...s.components};return n.jsxs(n.Fragment,{children:[n.jsx(l,{title:"코드규약/주석규칙/Event"}),`
+import{j as n,M as l}from"./index-BWdQKtNj.js";import{useMDXComponents as d}from"./index-BcjqIVm3.js";import"./iframe-B-jtwUgk.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function r(s){const e={code:"code",h2:"h2",h4:"h4",li:"li",p:"p",pre:"pre",ul:"ul",...d(),...s.components};return n.jsxs(n.Fragment,{children:[n.jsx(l,{title:"코드규약/주석규칙/Event"}),`
 `,n.jsx(e.h2,{id:"공통",children:"공통"}),`
 `,n.jsxs(e.p,{children:["최상단에 다음과 같은 형식으로 주석을 추가한다. ",n.jsx("br",{}),`
 작업자, TYPE으로 구성이 되며 아래에는 BO에 등록된 이벤트관련 키값을 넣으면 된다.`]}),`

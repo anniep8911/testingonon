@@ -1,4 +1,4 @@
-import{j as A,M as q}from"./index-DeD7CfoA.js";import{useMDXComponents as k}from"./index-pyNLm7ZL.js";import"./iframe-CQ1uoCmN.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function p(Q){const I={br:"br",h2:"h2",h3:"h3",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...k(),...Q.components};return A.jsxs(A.Fragment,{children:[A.jsx(q,{title:"코드규약/HTML/Event/00.Index"}),`
+import{j as A,M as q}from"./index-BWdQKtNj.js";import{useMDXComponents as k}from"./index-BcjqIVm3.js";import"./iframe-B-jtwUgk.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function p(Q){const I={br:"br",h2:"h2",h3:"h3",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...k(),...Q.components};return A.jsxs(A.Fragment,{children:[A.jsx(q,{title:"코드규약/HTML/Event/00.Index"}),`
 `,A.jsx(I.h3,{id:"이벤트-페이지-구조-정의",children:"이벤트 페이지 구조 정의"}),`
 `,A.jsxs(I.p,{children:["본 절은 ",A.jsx(I.strong,{children:"이벤트 페이지의 시각적 구획 단위와 구조적 체계"}),"를 설명하기 위한 섹션입니다.",A.jsx(I.br,{}),`
 `,"해당 구분은 개발 코드나 실제 HTML 태그의 기능적 의미와는 무관하며,  ",A.jsx(I.strong,{children:"시각적/논리적 레이아웃 구성을 명확히 하기 위한 내부 기준"}),"으로 정의됩니다."]}),`
