@@ -1,4 +1,4 @@
-import{j as A,M as n}from"./index-BWLjZKWE.js";import{useMDXComponents as i}from"./index-Bj9YTwQO.js";import"./iframe-Bozi_yy7.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function r(v){const t={a:"a",br:"br",h1:"h1",h3:"h3",h4:"h4",h5:"h5",hr:"hr",li:"li",p:"p",strong:"strong",ul:"ul",...i(),...v.components};return A.jsxs(A.Fragment,{children:[A.jsx(n,{title:"코드규약/JS/00.Index"}),`
+import{j as A,M as n}from"./index----7DFIj.js";import{useMDXComponents as i}from"./index-D3jf9NT2.js";import"./iframe-DIhFxkx3.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function r(v){const t={a:"a",br:"br",h1:"h1",h3:"h3",h4:"h4",h5:"h5",hr:"hr",li:"li",p:"p",strong:"strong",ul:"ul",...i(),...v.components};return A.jsxs(A.Fragment,{children:[A.jsx(n,{title:"코드규약/JS/00.Index"}),`
 `,A.jsx(t.h1,{id:"퍼블리싱-js-규약-문서",children:"퍼블리싱 JS 규약 문서"}),`
 `,A.jsxs(t.p,{children:["웹 퍼블리싱 환경에서 일관된 JavaScript 코딩 스타일과 유지보수성을 보장하기 위한 규칙 모음입니다.",A.jsx(t.br,{}),`
 `,"본 문서는 팀 내 개발 경험을 통일하고, 예측 가능한 구조를 통해 품질을 향상하는 것을 목표로 합니다."]}),`

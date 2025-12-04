@@ -1,4 +1,4 @@
-import{j as A,M as t}from"./index-BWLjZKWE.js";import{useMDXComponents as q}from"./index-Bj9YTwQO.js";import"./iframe-Bozi_yy7.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function e(l){const n={br:"br",h1:"h1",h2:"h2",h3:"h3",h4:"h4",h5:"h5",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...q(),...l.components};return A.jsxs(A.Fragment,{children:[A.jsx(t,{title:"코드규약/CSS/00.Index"}),`
+import{j as A,M as t}from"./index----7DFIj.js";import{useMDXComponents as q}from"./index-D3jf9NT2.js";import"./iframe-DIhFxkx3.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function e(l){const n={br:"br",h1:"h1",h2:"h2",h3:"h3",h4:"h4",h5:"h5",li:"li",ol:"ol",p:"p",strong:"strong",ul:"ul",...q(),...l.components};return A.jsxs(A.Fragment,{children:[A.jsx(t,{title:"코드규약/CSS/00.Index"}),`
 `,A.jsx(n.h1,{id:"퍼블리싱-css-규약-문서",children:"퍼블리싱 CSS 규약 문서"}),`
 `,A.jsxs(n.p,{children:["웹 퍼블리싱 환경에서 일관된 CSS 스타일과 유지보수성을 보장하기 위한 규칙 모음입니다.",A.jsx(n.br,{}),`
 `,"본 문서는 팀 내 스타일 경험을 통일하고, 예측 가능한 구조를 통해 품질을 향상하는 것을 목표로 합니다."]}),`

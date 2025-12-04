@@ -1,4 +1,4 @@
-import{j as n,M as l}from"./index-BWLjZKWE.js";import{useMDXComponents as e}from"./index-Bj9YTwQO.js";import"./iframe-Bozi_yy7.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function i(r){const s={br:"br",em:"em",h1:"h1",h2:"h2",h3:"h3",hr:"hr",li:"li",p:"p",strong:"strong",ul:"ul",...e(),...r.components};return n.jsxs(n.Fragment,{children:[n.jsx(l,{title:"현대면세점 퍼블리싱가이드"}),`
+import{j as n,M as l}from"./index----7DFIj.js";import{useMDXComponents as e}from"./index-D3jf9NT2.js";import"./iframe-DIhFxkx3.js";import"./index-AoVeDfJ4.js";import"./index-DrFu-skq.js";function i(r){const s={br:"br",em:"em",h1:"h1",h2:"h2",h3:"h3",hr:"hr",li:"li",p:"p",strong:"strong",ul:"ul",...e(),...r.components};return n.jsxs(n.Fragment,{children:[n.jsx(l,{title:"현대면세점 퍼블리싱가이드"}),`
 `,n.jsx(s.h1,{id:"현대면세점-퍼블리싱-가이드",children:"현대면세점 퍼블리싱 가이드"}),`
 `,n.jsxs(s.p,{children:[n.jsx(s.strong,{children:"Hyundai Department Store Duty Free — Publishing Standard Guide"}),n.jsx(s.br,{}),`
 `,n.jsx("sub",{children:"최초 업로드: 2025.11.04"})]}),`
