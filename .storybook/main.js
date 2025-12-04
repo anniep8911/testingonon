@@ -13,8 +13,20 @@ export default {
   },
   docs: { autodocs: true },
   staticDirs: ['public'],
-   viteFinal: async (config) => {
-    config.base = '/testingonon/storybook-static/'; 
+
+  viteFinal: async (config) => {
+    // 👉 GitHub Pages 절대 경로 (나중에 필요하면 활성화)
+    // config.base = '/testingonon/storybook-static/'; 
+
+    // 👉 Codespaces에서 실행 시 경로
+    config.base = '/storybook-static/';
+
+    // 👉 🔥 여기 추가 (HMR OFF)
+    config.server = {
+      ...(config.server || {}),
+      hmr: false,   // Codespace 깜빡임 방지 핵심 옵션
+    };
+
     return config;
   },
 };

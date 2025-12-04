@@ -510,8 +510,11 @@
 </script>
 <style>
   /* layout : 첫번째 미리보기 임시삭제 */
-  .sb-anchor:nth-of-type(2){
+  .sb-anchor{
     display: none;
+  }
+  .sb-anchor~.sb-anchor{
+    display: block;
   }
 
   .sbdocs .sbdocs-content {
@@ -520,6 +523,36 @@
 
   summary{
     cursor: pointer;
+  }
+
+  .code{
+    border: 1px solid #ccc;
+    max-width: 1080px;
+    box-sizing:border-box;
+    display:block;
+    padding: 20px;
+    margin:0;
+    position:relative;
+  }
+
+  .code button{
+    background-color: #ccc;
+    border: 0px solid #ccc;
+    position: absolute;
+    right:0;
+    bottom:0;
+    cursor: pointer;
+    padding: 5px 10px;
+  }
+  
+  h5{
+    margin: 0;
+  }
+  .css-xzp052{
+    overflow: visible !important;
+  }
+  .css-fzna0f{
+    height: 100%;
   }
 </style>
 
@@ -545,11 +578,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
   }):'';
 
+  const code =  document.querySelectorAll('.code');
+
+  const copyClip = (c)=>{
+    const btn = c.querySelector('button');
+    btn.addEventListener('click',function(){
+      let note = c.innerText.replace('Copy','');
+      navigator.clipboard.writeText(note);
+      btn.innerText = 'Copied';
+      
+      setTimeout(function(){
+        btn.innerText = 'Copy';
+      },500);
+    });
+  }
+
+  const mkText=(c)=>{
+    let raw = `${c.innerHTML}`;
+    raw= raw.replace(/(&lt;button&gt;Copy&lt;\/button&gt;|<button>Copy<\/button>)/g,'');
+    raw = raw.replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>');
+    c.textContent =raw
+  }
+  const mkCopy=(c)=>{
+    const copy = document.createElement('button');
+    copy.textContent = 'Copy';  
+    c.append(copy);
+    copyClip(c);
+  };
+
+  code.forEach(c=>{
+    const copy = document.createElement('button');
+    let copyActive = c.getAttribute('data-copy');
+    c.getAttribute('data-copy')==='hide'?mkText(c):(mkText(c),mkCopy(c));
+  })
+
 })
 
 </script>
 
-    <script type="module" crossorigin src="/testingonon/storybook-static/assets/iframe-CnIjsyjL.js"></script>
+    <script type="module" crossorigin src="/storybook-static/assets/iframe-Bozi_yy7.js"></script>
   </head>
 
   <body>
