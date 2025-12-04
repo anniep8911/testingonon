@@ -14,7 +14,7 @@ export default {
   docs: { autodocs: true },
   staticDirs: ['public'],
    viteFinal: async (config) => {
-    config.base = '/Guide/story/storybook-static/'; 
+    config.base = '/storybook-static/'; 
     return config;
   },
 };
