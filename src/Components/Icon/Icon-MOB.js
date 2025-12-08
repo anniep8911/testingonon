@@ -1,5 +1,5 @@
 import style from '../../JS/asset/style';
-import ico from './icon-data';
+import ico from '../assets/icon-data';
 const categories= [28,24,18,16,12];
 let datas= [[],[],[],[],[]];
 
