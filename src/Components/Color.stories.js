@@ -2,7 +2,7 @@ import { SinglePage } from './Color.js';
 import { marked } from 'marked';
 import makeStories from '../fnc.js';
 
-let path = '컴포넌트/공통/Color';
+let path = '컴포넌트/Color';
 
 let 공통다큐먼트 = `
  아이콘은 디자인 시안(figma)기준으로 하며, 컴포넌트명 또한 디자인 시안에 잡힌 컴포넌트 이름으로 한다.
