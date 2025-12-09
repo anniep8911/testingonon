@@ -11,6 +11,8 @@ export default function makeStories(SinglePage,md, types, moduleType) {
      const cleanCode = (html) =>
         (moduleType ==='style')?html.match(/<style[\s\S]*?<\/style>/gi)?.join('\n')
         :
+        (moduleType ==='both')? html 
+        :
         html
         // remove <style> blocks
         .replace(/<style[\s\S]*?<\/style>/gi, '')

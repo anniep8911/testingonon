@@ -11,6 +11,7 @@ let 공통다큐먼트 = `
 const md = (type) => {
   let result = ``;
 
+
   switch (type) {
     case 'path':
       result = `DOM은 jquery기반으로 탐색한다.`;
@@ -38,7 +39,9 @@ export default {
 };
 
 // 🔹 스토리 생성 (자동 등록)
-const stories = makeStories(SinglePage, md, [32,28,24,20,18,16,12], 'none');
+const stories = makeStories(SinglePage, md, ['button','iconbutton','textbutton'], 'none');
 
 // 🔹 개별 export (Storybook은 이름 기반으로 자동 인식)
-export const PX32 = stories["32"];
+export const button = stories.button;
+export const iconButton = stories.iconbutton;
+export const textButton = stories.textbutton;

@@ -50,7 +50,6 @@ export const SinglePage = (cat) => {
 ${col}</pre>`;
     console.log(cat);
   }
-
-
+  
   return `${commonStyle}${style}${result}`;
 };
