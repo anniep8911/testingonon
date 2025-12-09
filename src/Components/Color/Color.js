@@ -1,4 +1,4 @@
-import color from './assets/color-data';
+import color from '../assets/color-data';
 const commonStyle = `
     <style>
         .css-s230ta{
@@ -21,7 +21,6 @@ export const SinglePage = (cat) => {
 
   for(let i in color[`${cat}`]){
 
-    console.log(i);
     col = `background-color : ${color[cat][i].color};`
     if(Array.isArray(color[cat][i].color)){
         col = `background : linear-gradient(127deg,${color[cat][i].color});`;
@@ -48,8 +47,7 @@ export const SinglePage = (cat) => {
     `
     result += `<div class="${color[cat][i].name}">${color[cat][i].name} <br/>${color[cat][i].color} <br/> <sub>${color[cat][i].cmt}</sub></div>  <pre class="code">
 ${col}</pre>`;
-    console.log(cat);
-  }
+}
   
   return `${commonStyle}${style}${result}`;
 };
