@@ -2,7 +2,7 @@ import { SinglePage } from './Button-PC.js';
 import { marked } from 'marked';
 import makeStories from '../../fnc.js'; // 사용자 정의 스토리 생성/등록 함수
 
-let path = '컴포넌트/Button/PC/Button';
+let path = '컴포넌트/Button/PC/IconButton';
 
 let 공통다큐먼트 = `
 <ul>
