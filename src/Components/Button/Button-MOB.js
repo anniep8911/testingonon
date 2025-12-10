@@ -76,24 +76,37 @@ export const SinglePage = (cat,ext) => {
   };
   
   const getIcon = (fontSize) => {
-    const iconSizes = [12, 16, 18, 20, 24, 28, 32];
+    const iconSizes = [12, 16, 18, 24, 28];
     const closest = iconSizes.reduce((prev, curr) => 
       Math.abs(curr - fontSize) < Math.abs(prev - fontSize) ? curr : prev
     );
     
-    // chevron 아이콘 찾기 (우선순위: 정확한 사이즈 > 16px 폴백)
-    let iconKey = Object.keys(ico.PC).find(key => 
+    // chevron 아이콘 찾기 (우선순위: MOB > PC 폴백)
+    let iconKey = Object.keys(ico.MOB).find(key => 
       key.includes(`${closest}px`) && key.toLowerCase().includes('chevron')
     );
+    
+    // MOB에 없으면 PC 아이콘 사용
+    if (!iconKey) {
+      iconKey = Object.keys(ico.PC).find(key => 
+        key.includes(`${closest}px`) && key.toLowerCase().includes('chevron')
+      );
+      if (iconKey) {
+        return ico.PC[iconKey].img;
+      }
+    }
     
     // 해당 사이즈에 chevron이 없으면 16px chevron 사용
     if (!iconKey) {
       iconKey = Object.keys(ico.PC).find(key => 
         key.includes('16px') && key.toLowerCase().includes('chevron')
       );
+      if (iconKey) {
+        return ico.PC[iconKey].img;
+      }
     }
     
-    return iconKey ? ico.PC[iconKey].img : '';
+    return iconKey ? ico.MOB[iconKey].img : '';
   };
   
   // variants가 없는 경우 (textButton, iconButton)
@@ -101,37 +114,48 @@ export const SinglePage = (cat,ext) => {
     const fontSize = now[cat] ? getFontSize(now[cat]) : 16;
     const iconImg = getIcon(fontSize);
     
-    console.log('fontSize:', fontSize);
-    console.log('iconImg:', iconImg);
-    console.log('iconImg length:', iconImg ? iconImg.length : 0);
+    console.log('MOB - fontSize:', fontSize);
+    console.log('MOB - iconImg:', iconImg);
+    console.log('MOB - iconImg length:', iconImg ? iconImg.length : 0);
+    console.log('MOB - available MOB icons:', Object.keys(ico.MOB));
     
     result += `<h4>${cat}</h4>`;
     
-    // 아이콘 HTML 생성
     const iconTag = iconImg ? `<img src="${iconImg}" alt="icon" style="width:${fontSize}px;height:${fontSize}px;display:inline-block;vertical-align:middle;" />` : '';
     
+    const baseClass = (cls === 'textButton' || cls === 'iconButton') ? clsKebab : cls;
+    const fullClass = now[cat] ? `${baseClass} ${baseClass}__${cat}` : baseClass;
+    
     if (cls === 'textButton') {
-      result += `<${tagName} class="${clsKebab} ${clsKebab}__${cat}">Button${iconTag}</${tagName}>`;
+      result += `<${tagName} class="${fullClass}">Button${iconTag}</${tagName}>`;
     } else if (cls === 'iconButton') {
-      result += `<${tagName} class="${clsKebab} ${clsKebab}__${cat}">Button${iconTag}</${tagName}>`;
+      result += `<${tagName} class="${fullClass}">Button${iconTag}</${tagName}>`;
     } else {
-      result += `<${tagName} class="${cls} ${cls}__${cat}">${iconTag}</${tagName}>`;
+      result += `<${tagName} class="${fullClass}">${iconTag}</${tagName}>`;
     }
     
     // 코드 미리보기
-    const sizeStyles = now[cat].trim().replace(/\n\s+/g, '\n  ');
+    const sizeStyles = now[cat] ? now[cat].trim().replace(/\n\s+/g, '\n  ') : '';
     const displayCls = (cls === 'textButton' || cls === 'iconButton') ? clsKebab : cls;
     let variantStyle = `<style>
 .${displayCls} {
   ${now.common.trim().replace(/\n\s+/g, '\n  ')}
-}
+}`;
+    
+    if (sizeStyles) {
+      variantStyle += `
 .${displayCls}__${cat} {
   ${sizeStyles}
-}
+}`;
+    }
+    
+    variantStyle += `
 </style>`;
     
+    const displayClass = sizeStyles ? `${displayCls} ${displayCls}__${cat}` : displayCls;
+    const content = (cls === 'textButton' || cls === 'iconButton') ? 'Button' + iconTag : iconTag;
     result += `<pre class="code">${variantStyle}
-<${tagName} class="${displayCls} ${displayCls}__${cat}">${cls === 'textButton' ? 'Button' + iconTag : 'Button' + iconTag}</${tagName}></pre>`;
+<${tagName} class="${displayClass}">${content}</${tagName}></pre>`;
     
     return `${reset}${style}${result}`;
   }

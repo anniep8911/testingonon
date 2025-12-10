@@ -50,7 +50,7 @@ export default {
 };
 
 // 🔹 스토리 생성 (자동 등록)
-const stories = makeStories(SinglePage, md, ['large', 'medium', 'small', 'xsmall'], 'none');
+const stories = makeStories(SinglePage, md, ['large', 'medium', 'small', 'xsmall'], 'none',['pc','iconButton']);
 
 
 // 🔹 개별 export

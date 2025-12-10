@@ -5,7 +5,7 @@
  */
 import { marked } from 'marked';
 
-export default function makeStories(SinglePage,md, types, moduleType) {
+export default function makeStories(SinglePage,md, types, moduleType,ext=[]) {
     const stories = {};
 
      const cleanCode = (html) =>
@@ -26,11 +26,11 @@ export default function makeStories(SinglePage,md, types, moduleType) {
 
     types.forEach((type) => {
       stories[type] = {
-        render: () => SinglePage(type),
+        render: () => SinglePage(type,ext),
         parameters: {
           docs: {
             source: {
-              code:  cleanCode(SinglePage(type)),
+              code:  cleanCode(SinglePage(type,ext)),
               language: 'html',
             },
             description: { story: marked(md(type)) },

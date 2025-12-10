@@ -125,7 +125,6 @@ const btn = {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        width: 100%;
       `,
       primary: {
         able: `
@@ -160,6 +159,7 @@ const btn = {
         disabled: false
       },
       large: `
+        width: 100%;
         font-size: 16px;
         font-weight: 700;
         line-height: 48px;
@@ -167,6 +167,7 @@ const btn = {
         padding: 0 16px;
       `,
       medium: `
+        width: 96px;
         font-size: 14px;
         font-weight: 700;
         line-height: 40px;
@@ -174,6 +175,7 @@ const btn = {
         padding: 0 16px;
       `,
       small: `
+        width: 75px;
         font-size: 12px;
         font-weight: 700;
         line-height: 32px;
@@ -181,6 +183,7 @@ const btn = {
         padding: 0 12px;
       `,
       xsmall: `
+        width: 53px;
         font-size: 10px;
         font-weight: 700;
         line-height: 24px;
