@@ -17,14 +17,17 @@ const md = (type) => {
   let result = ``;
 
   switch (type) {
-    case 'button':
-      result = `기본 버튼으로 다양한 크기(Large, Medium, Small)와 색상(Primary, Secondary, Tertiary)을 지원합니다.`;
+    case 'large':
+      result = `Large`;
       break;
-    case 'iconButton':
-      result = `아이콘과 함께 표시되는 버튼입니다.`;
+    case 'medium':
+      result = `Medium`;
       break;
-    case 'textButton':
-      result = `텍스트만으로 구성된 버튼입니다.`;
+    case 'small':
+      result = `Small`;
+      break;
+    case 'xsmall':
+      result = `Xsmall`;
       break;
     default:
       result = 공통다큐먼트;
@@ -47,12 +50,11 @@ export default {
 };
 
 // 🔹 스토리 생성 (자동 등록)
-// makeStories가 'button', 'iconButton', 'textButton' 세 가지 키로 스토리를 생성한다고 가정합니다.
-const stories = makeStories(SinglePage, md, ['button', 'iconButton', 'textButton'], 'none');
+const stories = makeStories(SinglePage, md, ['large', 'medium', 'small', 'xsmall'], 'none');
 
 
-// 🔹 개별 export - 3가지 카테고리만 노출
-// makeStories가 반환한 객체에서 해당 키를 찾아 개별 export로 노출합니다.
-export const Button = stories["button"];
-export const IconButton = stories["iconButton"];
-export const TextButton = stories["textButton"];
+// 🔹 개별 export
+export const Large = stories["large"];
+export const Medium = stories["medium"];
+export const Small = stories["small"];
+export const Xsmall = stories["xsmall"];
