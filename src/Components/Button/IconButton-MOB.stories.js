@@ -18,7 +18,7 @@ const md = (type) => {
 
   switch (type) {
     case 'default':
-      result = `Default`;
+      result = ``;
       break;
     default:
       result = 공통다큐먼트;
@@ -35,7 +35,7 @@ export default {
       description: {
         component: marked(md())
       },
-      codePanel: false
+      codePanel: true
     }
   }
 };
@@ -44,4 +44,4 @@ export default {
 const stories = makeStories(SinglePage, md, ['default'], 'none',['mob','iconButton']);
 
 // 🔹 개별 export
-export const Default = stories["default"];
+export const large = stories["default"];

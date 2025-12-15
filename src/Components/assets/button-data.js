@@ -77,11 +77,13 @@ const btn = {
       medium: `
         line-height: 19px;
         font-size: 13px;
+        font-weight: bold;
       `,
       small: `
         line-height: 18px;
         font-size: 12px;
         gap: 2px;
+        font-weight: bold;
       `
     },
     iconButton: {

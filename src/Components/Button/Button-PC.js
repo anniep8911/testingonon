@@ -7,7 +7,6 @@ export const SinglePage = (cat,ext) => {
   const cls = ext[1];
   
   // 🔹 CSS 스타일 생성
-  // kebab-case로 변환 (textButton -> text-button, iconButton -> icon-button)
   const clsKebab = cls.replace(/([A-Z])/g, '-$1').toLowerCase();
   const cssClass = (cls === 'textButton' || cls === 'iconButton') ? clsKebab : cls;
   
@@ -75,47 +74,14 @@ export const SinglePage = (cat,ext) => {
     return match ? parseInt(match[1]) : 16;
   };
   
-  const getIcon = (fontSize) => {
-    const iconSizes = [12, 16, 18, 20, 24, 28, 32];
-    const closest = iconSizes.reduce((prev, curr) => 
-      Math.abs(curr - fontSize) < Math.abs(prev - fontSize) ? curr : prev
-    );
-    
-    // chevron 아이콘 찾기 (우선순위: 정확한 사이즈 > 16px 폴백)
-    let iconKey = Object.keys(ico.PC).find(key => 
-      key.includes(`${closest}px`) && key.toLowerCase().includes('chevron')
-    );
-    
-    // 해당 사이즈에 chevron이 없으면 16px chevron 사용
-    if (!iconKey) {
-      iconKey = Object.keys(ico.PC).find(key => 
-        key.includes('16px') && key.toLowerCase().includes('chevron')
-      );
-    }
-    
-    return iconKey ? ico.PC[iconKey].img : '';
-  };
-  
   // variants가 없는 경우 (textButton, iconButton)
   if (variants.length === 0) {
-    const fontSize = now[cat] ? getFontSize(now[cat]) : 16;
-    const iconImg = getIcon(fontSize);
-    
-    console.log('fontSize:', fontSize);
-    console.log('iconImg:', iconImg);
-    console.log('iconImg length:', iconImg ? iconImg.length : 0);
-    
-    result += `<h4>${cat}</h4>`;
-    
-    // 아이콘 HTML 생성
-    const iconTag = iconImg ? `<img src="${iconImg}" alt="icon" style="width:${fontSize}px;height:${fontSize}px;display:inline-block;vertical-align:middle;" />` : '';
-    
     if (cls === 'textButton') {
-      result += `<${tagName} class="${clsKebab} ${clsKebab}__${cat}">Button${iconTag}</${tagName}>`;
+      result += `<${tagName} class="${clsKebab} ${clsKebab}__${cat}">Button</${tagName}>`;
     } else if (cls === 'iconButton') {
-      result += `<${tagName} class="${clsKebab} ${clsKebab}__${cat}">Button${iconTag}</${tagName}>`;
+      result += `<${tagName} class="${clsKebab} ${clsKebab}__${cat}">Button</${tagName}>`;
     } else {
-      result += `<${tagName} class="${cls} ${cls}__${cat}">${iconTag}</${tagName}>`;
+      result += `<${tagName} class="${cls} ${cls}__${cat}"></${tagName}>`;
     }
     
     // 코드 미리보기
@@ -131,7 +97,7 @@ export const SinglePage = (cat,ext) => {
 </style>`;
     
     result += `<pre class="code">${variantStyle}
-<${tagName} class="${displayCls} ${displayCls}__${cat}">${cls === 'textButton' ? 'Button' + iconTag : 'Button' + iconTag}</${tagName}></pre>`;
+<${tagName} class="${displayCls} ${displayCls}__${cat}">${cls === 'textButton' ? 'Button' : 'Button'}</${tagName}></pre>`;
     
     return `${reset}${style}${result}`;
   }

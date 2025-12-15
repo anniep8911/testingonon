@@ -1,212 +1,170 @@
 import btn from '../assets/button-data';
 import reset from '../../JS/asset/style';
-import ico from '../assets/icon-data';
 
-export const SinglePage = (cat,ext) => {
-  const now = btn[ext[0]][ext[1]];
-  const cls = ext[1];
-  
-  // 🔹 CSS 스타일 생성
-  // kebab-case로 변환 (textButton -> text-button, iconButton -> icon-button)
-  const clsKebab = cls.replace(/([A-Z])/g, '-$1').toLowerCase();
-  const cssClass = (cls === 'textButton' || cls === 'iconButton') ? clsKebab : cls;
-  
-  let style = `<style>
-.${cssClass} {
-  ${now.common.trim().replace(/\n\s+/g, '\n  ')}
-}
-`;
+// ═══════════════════════════════════════════════════════════════
+// 📌 함수 선언부 (모든 헬퍼 함수들)
+// ═══════════════════════════════════════════════════════════════
 
-  // sizes와 variants 추출
-  const sizes = [];
-  const variants = [];
-  
-  for (let key in now) {
-    if (['large', 'medium', 'small', 'xsmall'].includes(key)) {
-      sizes.push(key);
-    }
-    if (['primary', 'secondary', 'tertiary'].includes(key)) {
-      variants.push(key);
-    }
-  }
-  
-  // cat 사이즈에 해당하는 스타일만 생성
-  if (variants.length === 0 && now[cat]) {
-    // textButton, iconButton의 경우
-    const sizeStyles = now[cat].trim().replace(/\n\s+/g, '\n  ');
-    style += `.${clsKebab}__${cat} {
-  ${sizeStyles}
-}
-`;
-  }
-  
-  // cat 사이즈에 해당하는 스타일만 생성 (button의 경우)
-  for (let variant of variants) {
-    const sizeStyles = now[cat].trim().replace(/\n\s+/g, '\n  ');
-    const variantStyles = now[variant].able.trim().replace(/\n\s+/g, '\n  ');
-    
-    // able 상태
-    style += `.${cls}__${cat}--${variant} {
-  ${sizeStyles}
-  ${variantStyles}
-}
-`;
-    
-    // disabled 상태 (존재하는 경우만)
-    if (now[variant].disabled) {
-      const disabledStyles = now[variant].disabled.trim().replace(/\n\s+/g, '\n  ');
-      style += `.${cls}__${cat}--${variant}.is-disabled {
-  ${sizeStyles}
-  ${disabledStyles}
-}
-`;
-    }
-  }
-  
-  style += `</style>`;
+/** camelCase를 kebab-case로 변환 */
+const toKebabCase = (str) => str.replace(/([A-Z])/g, '-$1').toLowerCase();
 
-  // 🔹 버튼 태그 생성 (cat 사이즈 기준)
-  let result = '';
-  const tagName = cls === 'textButton' ? 'a' : 'button';
-  
-  // 아이콘 선택 함수
-  const getFontSize = (sizeStr) => {
-    const match = sizeStr.match(/font-size:\s*(\d+)px/);
-    return match ? parseInt(match[1]) : 16;
-  };
-  
-  const getIcon = (fontSize) => {
-    const iconSizes = [12, 16, 18, 24, 28];
-    const closest = iconSizes.reduce((prev, curr) => 
-      Math.abs(curr - fontSize) < Math.abs(prev - fontSize) ? curr : prev
-    );
-    
-    // chevron 아이콘 찾기 (우선순위: MOB > PC 폴백)
-    let iconKey = Object.keys(ico.MOB).find(key => 
-      key.includes(`${closest}px`) && key.toLowerCase().includes('chevron')
-    );
-    
-    // MOB에 없으면 PC 아이콘 사용
-    if (!iconKey) {
-      iconKey = Object.keys(ico.PC).find(key => 
-        key.includes(`${closest}px`) && key.toLowerCase().includes('chevron')
-      );
-      if (iconKey) {
-        return ico.PC[iconKey].img;
-      }
-    }
-    
-    // 해당 사이즈에 chevron이 없으면 16px chevron 사용
-    if (!iconKey) {
-      iconKey = Object.keys(ico.PC).find(key => 
-        key.includes('16px') && key.toLowerCase().includes('chevron')
-      );
-      if (iconKey) {
-        return ico.PC[iconKey].img;
-      }
-    }
-    
-    return iconKey ? ico.MOB[iconKey].img : '';
-  };
-  
-  // variants가 없는 경우 (textButton, iconButton)
+/** CSS 클래스명 결정 (textButton/iconButton은 kebab-case, 나머지는 원본) */
+const getCssClass = (cls) => 
+  (cls === 'textButton' || cls === 'iconButton') ? toKebabCase(cls) : cls;
+
+/** CSS 스타일 들여쓰기 정렬 */
+const normalizeStyle = (style) => style.trim().replace(/\n\s+/g, '\n  ');
+
+/** 버튼 데이터에서 크기 추출 */
+const extractSizes = (buttonData) => 
+  Object.keys(buttonData).filter(key => ['large', 'medium', 'small', 'xsmall'].includes(key));
+
+/** 버튼 데이터에서 스타일 변형 추출 */
+const extractVariants = (buttonData) => 
+  Object.keys(buttonData).filter(key => ['primary', 'secondary', 'tertiary'].includes(key));
+
+/** 사용할 HTML 태그 결정 */
+const getTagName = (cls) => cls === 'textButton' ? 'a' : 'button';
+
+/** 공통 스타일 생성 */
+const buildCommonStyle = (cssClass, commonStyles) => 
+  `.code{margin-top:20px;}.${cssClass}{${normalizeStyle(commonStyles)}}`;
+
+/** 일반 버튼 able 상태 스타일 생성 */
+const buildButtonStyle = (cls, size, variant, sizeStyles, variantStyles) => 
+  `.${cls}__${size}--${variant}{${normalizeStyle(sizeStyles)}${normalizeStyle(variantStyles)}}`;
+
+/** 일반 버튼 disabled 상태 스타일 생성 */
+const buildDisabledStyle = (cls, size, variant, sizeStyles, disabledStyles) => {
+  if (!disabledStyles) return '';
+  return `.${cls}__${size}--${variant}.is-disabled{${normalizeStyle(sizeStyles)}${normalizeStyle(disabledStyles)}}`;
+};
+
+/** Text/Icon 버튼 스타일 생성 */
+const buildTextIconStyle = (cssClass, sizeStyles) => 
+  `.${cssClass}{${normalizeStyle(sizeStyles)}}`;
+
+/** 전체 스타일 태그 생성 */
+const buildAllStyles = (cls, buttonData, cat) => {
+  const cssClass = getCssClass(cls);
+  const variants = extractVariants(buttonData);
+  let styles = buildCommonStyle(cssClass, buttonData.common);
+
   if (variants.length === 0) {
-    const fontSize = now[cat] ? getFontSize(now[cat]) : 16;
-    const iconImg = getIcon(fontSize);
-    
-    console.log('MOB - fontSize:', fontSize);
-    console.log('MOB - iconImg:', iconImg);
-    console.log('MOB - iconImg length:', iconImg ? iconImg.length : 0);
-    console.log('MOB - available MOB icons:', Object.keys(ico.MOB));
-    
-    result += `<h4>${cat}</h4>`;
-    
-    const iconTag = iconImg ? `<img src="${iconImg}" alt="icon" style="width:${fontSize}px;height:${fontSize}px;display:inline-block;vertical-align:middle;" />` : '';
-    
-    const baseClass = (cls === 'textButton' || cls === 'iconButton') ? clsKebab : cls;
-    const fullClass = now[cat] ? `${baseClass} ${baseClass}__${cat}` : baseClass;
-    
-    if (cls === 'textButton') {
-      result += `<${tagName} class="${fullClass}">Button${iconTag}</${tagName}>`;
-    } else if (cls === 'iconButton') {
-      result += `<${tagName} class="${fullClass}">Button${iconTag}</${tagName}>`;
-    } else {
-      result += `<${tagName} class="${fullClass}">${iconTag}</${tagName}>`;
+    // Text/Icon 버튼
+    if (buttonData[cat]) {
+      styles += buildTextIconStyle(toKebabCase(cls) + '__' + cat, buttonData[cat]);
     }
-    
-    // 코드 미리보기
-    const sizeStyles = now[cat] ? now[cat].trim().replace(/\n\s+/g, '\n  ') : '';
-    const displayCls = (cls === 'textButton' || cls === 'iconButton') ? clsKebab : cls;
-    let variantStyle = `<style>
-.${displayCls} {
-  ${now.common.trim().replace(/\n\s+/g, '\n  ')}
-}`;
-    
-    if (sizeStyles) {
-      variantStyle += `
-.${displayCls}__${cat} {
-  ${sizeStyles}
-}`;
+  } else {
+    // 일반 버튼
+    for (let variant of variants) {
+      styles += buildButtonStyle(cls, cat, variant, buttonData[cat], buttonData[variant].able);
+      styles += buildDisabledStyle(cls, cat, variant, buttonData[cat], buttonData[variant].disabled);
     }
-    
-    variantStyle += `
-</style>`;
-    
-    const displayClass = sizeStyles ? `${displayCls} ${displayCls}__${cat}` : displayCls;
-    const content = (cls === 'textButton' || cls === 'iconButton') ? 'Button' + iconTag : iconTag;
-    result += `<pre class="code">${variantStyle}
-<${tagName} class="${displayClass}">${content}</${tagName}></pre>`;
-    
-    return `${reset}${style}${result}`;
   }
-  
-  for (let variant of variants) {
-    result += `<h4>${variant}</h4>`;
-    
-    // able 상태
-    result += `<button class="${cls} ${cls}__${cat}--${variant}">Button</button>`;
-    
-    // disabled 상태 (존재하는 경우만)
-    if (now[variant].disabled) {
-      result += `<button class="${cls} ${cls}__${cat}--${variant} is-disabled">Button</button>`;
-    }
-    
-    // 해당 variant에 사용된 스타일만 추출
-    const sizeStyles = now[cat].trim().replace(/\n\s+/g, '\n  ');
-    const variantStyles = now[variant].able.trim().replace(/\n\s+/g, '\n  ');
-    
-    let variantStyle = `<style>
-.${cls} {
-  ${now.common.trim().replace(/\n\s+/g, '\n  ')}
-}
-.${cls}__${cat}--${variant} {
-  ${sizeStyles}
-  ${variantStyles}
-}`;
-    
-    if (now[variant].disabled) {
-      const disabledStyles = now[variant].disabled.trim().replace(/\n\s+/g, '\n  ');
-      variantStyle += `
-.${cls}__${cat}--${variant}.is-disabled {
-  ${sizeStyles}
-  ${disabledStyles}
-}`;
-    }
-    
-    variantStyle += `
-</style>`;
-    
-    // 코드 미리보기
-    result += `<pre class="code">${variantStyle}
-<button class="${cls} ${cls}__${cat}--${variant}">Button</button>`;
-    
-    if (now[variant].disabled) {
-      result += `
-<button class="${cls} ${cls}__${cat}--${variant} is-disabled">Button</button>`;
-    }
-    
-    result += `</pre>`;
+
+  return `<style>${styles}</style>`;
+};
+
+/** 일반 버튼 HTML 생성 */
+const buildButtonHtml = (cls, size, variant, variantData) => {
+  let html = `<button class="${cls} ${cls}__${size}--${variant}">Button</button>`;
+  if (variantData.disabled) {
+    html += `<button class="${cls} ${cls}__${size}--${variant} is-disabled">Button</button>`;
   }
-  
-  return `${reset}${style}${result}`;
+  return html;
+};
+
+/** Text/Icon 버튼 HTML 생성 */
+const buildTextIconHtml = (cls, cat, catData) => {
+  const tagName = getTagName(cls);
+  const cssClass = getCssClass(cls);
+  const fullClass = catData ? `${cssClass} ${cssClass}__${cat}` : cssClass;
+
+  if (cls === 'textButton') {
+    return `<${tagName} class="${fullClass}">Button</${tagName}>`;
+  } else if (cls === 'iconButton') {
+    return `<${tagName} class="${fullClass}"><i class="ic_heart_fillded_18px"></i></${tagName}>`;
+  }
+
+  return `<${tagName} class="${fullClass}"></${tagName}>`;
+};
+
+/** 일반 버튼 코드 미리보기 생성 */
+const buildButtonCodePreview = (cls, size, variant, buttonData, variantData) => {
+  const sizeStyles = buttonData[size];
+  const ableStyles = variantData.able;
+
+  let styleCode = `<style>\n.${cls}{\n  ${normalizeStyle(buttonData.common)}\n}\n.${cls}__${size}--${variant}{\n  ${normalizeStyle(sizeStyles)}\n  ${normalizeStyle(ableStyles)}\n}`;
+
+  if (variantData.disabled) {
+    styleCode += `\n.${cls}__${size}--${variant}.is-disabled{\n  ${normalizeStyle(sizeStyles)}\n  ${normalizeStyle(variantData.disabled)}\n}`;
+  }
+
+  styleCode += `\n</style>`;
+
+  let htmlCode = `<button class="${cls} ${cls}__${size}--${variant}">Button</button>`;
+  if (variantData.disabled) {
+    htmlCode += `\n<button class="${cls} ${cls}__${size}--${variant} is-disabled">Button</button>`;
+  }
+
+  return `<pre class="code">${styleCode}\n${htmlCode}</pre>`;
+};
+
+/** Text/Icon 버튼 코드 미리보기 생성 */
+const buildTextIconCodePreview = (cls, cat, buttonData) => {
+  const cssClass = getCssClass(cls);
+  const sizeStyles = buttonData[cat] ? normalizeStyle(buttonData[cat]) : '';
+  const tagName = getTagName(cls);
+
+  let styleCode = `<style>\n.${cssClass}{\n  ${normalizeStyle(buttonData.common)}\n}`;
+  if (sizeStyles) {
+    styleCode += `\n.${cssClass}__${cat}{\n  ${sizeStyles}\n}`;
+  }
+  styleCode += `\n</style>`;
+
+  const displayClass = sizeStyles ? `${cssClass} ${cssClass}__${cat}` : cssClass;
+  const htmlCode = `<${tagName} class="${displayClass}">Button</${tagName}>`;
+
+  return `<pre class="code">${styleCode}\n${htmlCode}</pre>`;
+};
+
+// ═══════════════════════════════════════════════════════════════
+// 🎯 실행부 (메인 로직)
+// ═══════════════════════════════════════════════════════════════
+
+/**
+ * 버튼 컴포넌트 렌더링 메인 함수
+ * @param {string} cat - 버튼 크기 (large, medium, small, xsmall)
+ * @param {array} ext - [컴포넌트타입, 하위타입] 
+ * @returns {string} 렌더링된 버튼 HTML, 스타일, 코드
+ */
+export const SinglePage = (cat, ext) => {
+  // 1️⃣ 데이터 가져오기
+  const buttonData = btn[ext[0]][ext[1]];
+  const cls = ext[1];
+
+  // 2️⃣ 스타일 생성
+  const styleBlock = buildAllStyles(cls, buttonData, cat);
+
+  // 3️⃣ 버튼 콘텐츠 생성
+  let contentBlock = '';
+  const variants = extractVariants(buttonData);
+
+  if (variants.length === 0) {
+    // Text/Icon 버튼 렌더링
+    contentBlock += `<h4>${cat}</h4>`;
+    contentBlock += buildTextIconHtml(cls, cat, buttonData[cat]);
+    contentBlock += buildTextIconCodePreview(cls, cat, buttonData);
+  } else {
+    // 일반 버튼 렌더링 (primary, secondary, tertiary)
+    for (let variant of variants) {
+      contentBlock += `<h4>${variant}</h4>`;
+      contentBlock += buildButtonHtml(cls, cat, variant, buttonData[variant]);
+      contentBlock += buildButtonCodePreview(cls, cat, variant, buttonData, buttonData[variant]);
+    }
+  }
+
+  // 4️⃣ 최종 조합
+  return `${reset}${styleBlock}${contentBlock}`;
 };
