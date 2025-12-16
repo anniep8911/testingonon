@@ -190,7 +190,7 @@ export const SinglePage = (type, ext = []) => {
       `;
       break;
 
-    case 'filled-disabled':
+    case 'disabled':
       result = `
         <div class="form-field">
           <label class="form-field__label">한글설명</label>
@@ -225,47 +225,16 @@ export const SinglePage = (type, ext = []) => {
     default:
       result = `
         <div class="form-field">
-          <label class="form-label">한글설명</label>
-          <div class="input-wrapper">
+          <label class="form-field__label">한글설명</label>
+          <div class="form-field__wrapper">
             <input 
               type="text" 
-              class="input-${device}-${type}" 
+              class="form-field__input" 
               placeholder="한글설명을 입력해주세요"
-              id="input-default-${device}-${type}"
             />
-            <button class="clear-button" type="button" id="clear-default-${device}-${type}">×</button>
+            <button class="form-field__clear-btn" type="button">×</button>
           </div>
         </div>
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script>
-          $(document).ready(function() {
-            const input = $('#input-default-${device}-${type}');
-            const clearBtn = $('#clear-default-${device}-${type}');
-            
-            function updateClearButton() {
-              if (input.val().length > 0) {
-                clearBtn.addClass('show');
-                input.addClass('has-value');
-              } else {
-                clearBtn.removeClass('show');
-                input.removeClass('has-value');
-              }
-            }
-            
-            input.on('input focus', function() {
-              updateClearButton();
-            });
-            
-            clearBtn.on('click', function() {
-              input.val('');
-              clearBtn.removeClass('show');
-              input.removeClass('has-value');
-              input.focus();
-            });
-            
-            updateClearButton();
-          });
-        </script>
       `;
   }
 

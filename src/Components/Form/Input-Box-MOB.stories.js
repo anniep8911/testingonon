@@ -1,8 +1,8 @@
-import { SinglePage } from './Input-Box-PC.js';
+import { SinglePage } from './Input-Box-MOB.js';
 import { marked } from 'marked';
 import makeStories from '../../fnc.js';
 
-let path = '컴포넌트/Form/PC/Input-Box';
+let path = '컴포넌트/Form/MOB/Input-Box';
 
 let 공통다큐먼트 = `
 <ul>
@@ -56,7 +56,7 @@ export default {
   }
 };
 
-const stories = makeStories(SinglePage, md, ['default', 'focus', 'filled', 'disabled', 'error', 'textarea', 'textarea-filled'], 'both', ['pc', 'input-box']);
+const stories = makeStories(SinglePage, md, ['default', 'focus', 'filled', 'disabled', 'error', 'textarea', 'textarea-filled'], 'both', ['mob', 'input-box']);
 
 export const Default = stories["default"];
 export const Focus = stories["focus"];

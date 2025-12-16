@@ -6,11 +6,10 @@ let path = '컴포넌트/Form/MOB/Input-Line';
 
 let 공통다큐먼트 = `
 <ul>
-  <li>모바일용 텍스트 입력 컴포넌트입니다</li>
-  <li>다양한 크기를 지원하며 활성화/비활성화 상태를 포함합니다</li>
-  <li>포커스 시 시각적 피드백이 제공됩니다</li>
-  <li>hover, focus 상태에서 border 색상이 변경됩니다</li>
-  <li>모바일에서는 width: 100%로 전체 너비를 차지합니다</li>
+  <li>Line Input은 하단 선만 표시되는 입력 필드입니다</li>
+  <li>포커스 시 border-bottom이 2px로 굵어지며 검은색으로 변경됩니다</li>
+  <li>투명한 배경으로 깔끔한 디자인을 제공합니다</li>
+  <li>에러 상태에서는 하단 선과 에러 메시지가 빨간색으로 표시됩니다</li>
 </ul>
 `;
 
@@ -18,17 +17,26 @@ const md = (type) => {
   let result = ``;
 
   switch (type) {
-    case 'large':
-      result = `Large - 56px 높이의 입력 필드`;
+    case 'default':
+      result = `Default - 기본 상태의 Line Input`;
       break;
-    case 'medium':
-      result = `Medium - 48px 높이의 입력 필드`;
+    case 'focus':
+      result = `Focus - 포커스 상태 (입력값 포함)`;
       break;
-    case 'small':
-      result = `Small - 40px 높이의 입력 필드`;
+    case 'filled':
+      result = `Filled - 입력값이 있는 상태`;
       break;
-    case 'xsmall':
-      result = `Xsmall - 32px 높이의 입력 필드`;
+    case 'disabled':
+      result = `Disabled - 비활성화 상태`;
+      break;
+    case 'error':
+      result = `Error - 에러 메시지가 표시되는 상태`;
+      break;
+    case 'date':
+      result = `Date - 날짜 선택 입력 필드 (달력 아이콘 포함)`;
+      break;
+    case 'field-btn':
+      result = `Field + Button - 입력 필드와 버튼이 함께 있는 형태 (예: 검색)`;
       break;
     default:
       result = 공통다큐먼트;
@@ -43,14 +51,17 @@ export default {
       description: {
         component: marked(md())
       },
-      codePanel: false
+      codePanel: true
     }
   }
 };
 
-const stories = makeStories(SinglePage, md, ['large', 'medium', 'small', 'xsmall'], 'both', ['mob', 'input']);
+const stories = makeStories(SinglePage, md, ['default', 'focus', 'filled', 'disabled', 'error', 'date', 'field-btn'], 'both', ['mob', 'input-line']);
 
-export const Large = stories["large"];
-export const Medium = stories["medium"];
-export const Small = stories["small"];
-export const Xsmall = stories["xsmall"];
+export const Default = stories["default"];
+export const Focus = stories["focus"];
+export const Filled = stories["filled"];
+export const Disabled = stories["disabled"];
+export const Error = stories["error"];
+export const Date = stories["date"];
+export const FieldBtn = stories["field-btn"];
