@@ -96,13 +96,13 @@ import{k as f,m as h}from"./fnc-RF4Phh58.js";const x=l=>{const e=`
         right: 0;
         background-color: #fff;
         border: 1px solid #ddd;
-        border-top: 1px solid #000;
-        border-radius: 0 0 4px 4px;
+        border-radius: 4px;
         max-height: 200px;
         overflow-y: auto;
         display: none;
         z-index: 1000;
-        margin-top: -1px;
+        margin-top: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
       }
       
       .select-input__options.is--opened {
@@ -115,17 +115,17 @@ import{k as f,m as h}from"./fnc-RF4Phh58.js";const x=l=>{const e=`
         font-size: 14px;
         color: #333;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-        line-height: 1.6;
-        border-bottom: 1px solid #f0f0f0;
+        line-height: 1.5;
+        border-bottom: 1px solid #e5e5e5;
         transition: background-color 0.2s;
       }
       
       .select-input__option:hover {
-        background-color: #9AA3B1;
+        background-color: #f5f5f5;
       }
       
       .select-input__option.is--selected {
-        background-color: #f5f5f5;
+        background-color: #f0f0f0;
       }
       
       .select-input__option:last-child {
@@ -288,4 +288,4 @@ import{k as f,m as h}from"./fnc-RF4Phh58.js";const x=l=>{const e=`
   <li>에러 상태에서는 하단 선이 빨간색으로 표시됩니다</li>
   <li>native select 요소를 사용합니다</li>
 </ul>
-`;const b=l=>{let e="";switch(l){case"default":e="Default - 닫힌 상태의 Select Box";break;case"option-opened":e="Option Opened - 열린 드롭다운 상태";break;case"disabled":e="Disabled - 비활성화 상태";break;default:e=w}return e},y={title:k,parameters:{docs:{description:{component:f(b())},codePanel:!0}}},n=h(x,b,["default","option-opened","disabled"],"both",["mob","select-line"]),i=n.default,o=n["option-opened"],s=n.disabled;var a,c,p;i.parameters={...i.parameters,docs:{...(a=i.parameters)==null?void 0:a.docs,source:{originalSource:'stories["default"]',...(p=(c=i.parameters)==null?void 0:c.docs)==null?void 0:p.source}}};var d,r,u;o.parameters={...o.parameters,docs:{...(d=o.parameters)==null?void 0:d.docs,source:{originalSource:'stories["option-opened"]',...(u=(r=o.parameters)==null?void 0:r.docs)==null?void 0:u.source}}};var v,_,g;s.parameters={...s.parameters,docs:{...(v=s.parameters)==null?void 0:v.docs,source:{originalSource:'stories["disabled"]',...(g=(_=s.parameters)==null?void 0:_.docs)==null?void 0:g.source}}};const C=["Default","OptionOpened","Disabled"];export{i as Default,s as Disabled,o as OptionOpened,C as __namedExportsOrder,y as default};
+`;const b=l=>{let e="";switch(l){case"default":e="Default - 닫힌 상태의 Select Box";break;case"option-opened":e="Option Opened - 열린 드롭다운 상태";break;case"disabled":e="Disabled - 비활성화 상태";break;default:e=w}return e},y={title:k,parameters:{docs:{description:{component:f(b())},codePanel:!0}}},n=h(x,b,["default","option-opened","disabled"],"both",["mob","select-line"]),i=n.default,s=n["option-opened"],o=n.disabled;var a,c,p;i.parameters={...i.parameters,docs:{...(a=i.parameters)==null?void 0:a.docs,source:{originalSource:'stories["default"]',...(p=(c=i.parameters)==null?void 0:c.docs)==null?void 0:p.source}}};var d,r,u;s.parameters={...s.parameters,docs:{...(d=s.parameters)==null?void 0:d.docs,source:{originalSource:'stories["option-opened"]',...(u=(r=s.parameters)==null?void 0:r.docs)==null?void 0:u.source}}};var v,_,g;o.parameters={...o.parameters,docs:{...(v=o.parameters)==null?void 0:v.docs,source:{originalSource:'stories["disabled"]',...(g=(_=o.parameters)==null?void 0:_.docs)==null?void 0:g.source}}};const C=["Default","OptionOpened","Disabled"];export{i as Default,o as Disabled,s as OptionOpened,C as __namedExportsOrder,y as default};

@@ -9,12 +9,12 @@ export const SinglePage = (type) => {
       
       .select-input__label {
         display: block;
-        font-size: 12px;
-        color: #999;
-        margin-bottom: 12px;
-        font-weight: 400;
+        font-size: 14px;
+        color: #333;
+        margin-bottom: 8px;
+        font-weight: 500;
         letter-spacing: -0.02em;
-        line-height: 1.4;
+        line-height: 1.5;
       }
       
       .select-input__wrapper {
@@ -30,9 +30,9 @@ export const SinglePage = (type) => {
       
       .select-input__trigger {
         width: 100%;
-        height: 40px;
-        font-size: 14px;
-        padding: 8px 20px 8px 0;
+        height: 48px;
+        font-size: 16px;
+        padding: 12px 32px 12px 0;
         border: none;
         border-bottom: 1px solid #ddd;
         border-radius: 0;
@@ -54,9 +54,9 @@ export const SinglePage = (type) => {
         right: 0;
         top: 50%;
         transform: translateY(-50%);
-        width: 12px;
-        height: 8px;
-        background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1L6 6L11 1" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+        width: 14px;
+        height: 9px;
+        background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1L7 7L13 1" stroke="%23999" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
         background-repeat: no-repeat;
         background-position: center;
         background-size: contain;
@@ -66,13 +66,13 @@ export const SinglePage = (type) => {
       .select-input__trigger.is--opened {
         border-bottom-color: #000;
         border-bottom-width: 2px;
-        padding: 7px 20px 7px 0;
+        padding: 11px 31px 11px 0;
         color: #333;
       }
       
       .select-input__trigger.is--opened::after {
         transform: translateY(-50%) rotate(180deg);
-        background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1L6 6L11 1" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+        background-image: url('data:image/svg+xml;charset=UTF-8,%3Csvg width="14" height="9" viewBox="0 0 14 9" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1 1L7 7L13 1" stroke="%23333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
       }
       
       .select-input__trigger.is--filled {
@@ -98,7 +98,7 @@ export const SinglePage = (type) => {
         background-color: #fff;
         border: 1px solid #ddd;
         border-radius: 4px;
-        max-height: 200px;
+        max-height: 240px;
         overflow-y: auto;
         display: none;
         z-index: 1000;
@@ -111,9 +111,9 @@ export const SinglePage = (type) => {
       }
       
       .select-input__option {
-        padding: 12px 16px;
+        padding: 16px 16px;
         cursor: pointer;
-        font-size: 14px;
+        font-size: 16px;
         color: #333;
         font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
         line-height: 1.5;
@@ -126,7 +126,7 @@ export const SinglePage = (type) => {
       }
       
       .select-input__option.is--selected {
-        background-color: #f0f0f0;
+        background-color: #f9f9f9;
       }
       
       .select-input__option:last-child {
@@ -206,16 +206,16 @@ export const SinglePage = (type) => {
               <div class="select-input__options">
                 <div class="select-input__option" data-value="">출국장소를 입력해주세요</div>
                 <div class="select-input__option" data-value="1">인천국제공항</div>
-                <div class="select-input__option" data-value="2">김포국제공항</div>
-                <div class="select-input__option" data-value="3">제주국제공항</div>
-                <div class="select-input__option" data-value="4">김해국제공항</div>
+                <div class="select-input__option" data-value="2">김포공항</div>
+                <div class="select-input__option" data-value="3">김포공항</div>
+                <div class="select-input__option" data-value="4">제주공항</div>
               </div>
               <select id="select-line-default" class="select-input__native">
                 <option value="">출국장소를 입력해주세요</option>
                 <option value="1">인천국제공항</option>
-                <option value="2">김포국제공항</option>
-                <option value="3">제주국제공항</option>
-                <option value="4">김해국제공항</option>
+                <option value="2">김포공항</option>
+                <option value="3">김포공항</option>
+                <option value="4">제주공항</option>
               </select>
             </div>
           </div>
@@ -233,16 +233,16 @@ export const SinglePage = (type) => {
               <div class="select-input__options is--opened">
                 <div class="select-input__option" data-value="">출국장소를 입력해주세요</div>
                 <div class="select-input__option" data-value="1">인천국제공항</div>
-                <div class="select-input__option" data-value="2">김포국제공항</div>
-                <div class="select-input__option" data-value="3">제주국제공항</div>
-                <div class="select-input__option" data-value="4">김해국제공항</div>
+                <div class="select-input__option" data-value="2">김포공항</div>
+                <div class="select-input__option" data-value="3">김포공항</div>
+                <div class="select-input__option" data-value="4">제주공항</div>
               </div>
               <select id="select-line-opened" class="select-input__native">
                 <option value="">출국장소를 입력해주세요</option>
                 <option value="1">인천국제공항</option>
-                <option value="2">김포국제공항</option>
-                <option value="3">제주국제공항</option>
-                <option value="4">김해국제공항</option>
+                <option value="2">김포공항</option>
+                <option value="3">김포공항</option>
+                <option value="4">제주공항</option>
               </select>
             </div>
           </div>
@@ -260,16 +260,16 @@ export const SinglePage = (type) => {
               <div class="select-input__options">
                 <div class="select-input__option" data-value="">출국장소를 입력해주세요</div>
                 <div class="select-input__option" data-value="1">인천국제공항</div>
-                <div class="select-input__option" data-value="2">김포국제공항</div>
-                <div class="select-input__option" data-value="3">제주국제공항</div>
-                <div class="select-input__option" data-value="4">김해국제공항</div>
+                <div class="select-input__option" data-value="2">김포공항</div>
+                <div class="select-input__option" data-value="3">김포공항</div>
+                <div class="select-input__option" data-value="4">제주공항</div>
               </div>
               <select id="select-line-disabled" class="select-input__native" disabled>
                 <option value="">출국장소를 입력해주세요</option>
                 <option value="1" selected>인천국제공항</option>
-                <option value="2">김포국제공항</option>
-                <option value="3">제주국제공항</option>
-                <option value="4">김해국제공항</option>
+                <option value="2">김포공항</option>
+                <option value="3">김포공항</option>
+                <option value="4">제주공항</option>
               </select>
             </div>
           </div>
@@ -287,16 +287,16 @@ export const SinglePage = (type) => {
               <div class="select-input__options">
                 <div class="select-input__option" data-value="">출국장소를 입력해주세요</div>
                 <div class="select-input__option" data-value="1">인천국제공항</div>
-                <div class="select-input__option" data-value="2">김포국제공항</div>
-                <div class="select-input__option" data-value="3">제주국제공항</div>
-                <div class="select-input__option" data-value="4">김해국제공항</div>
+                <div class="select-input__option" data-value="2">김포공항</div>
+                <div class="select-input__option" data-value="3">김포공항</div>
+                <div class="select-input__option" data-value="4">제주공항</div>
               </div>
               <select id="select-line-default" class="select-input__native">
                 <option value="">출국장소를 입력해주세요</option>
                 <option value="1">인천국제공항</option>
-                <option value="2">김포국제공항</option>
-                <option value="3">제주국제공항</option>
-                <option value="4">김해국제공항</option>
+                <option value="2">김포공항</option>
+                <option value="3">김포공항</option>
+                <option value="4">제주공항</option>
               </select>
             </div>
           </div>
