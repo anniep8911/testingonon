@@ -1,0 +1,1 @@
+const o={options:{storySort:{method:"alphabetical",order:["현대면세점 퍼블리싱가이드","GIT","업무프로세스","코드규약","*"],locales:"ko-KR"}},docs:{codePanel:!0},controls:{disable:!0},actions:{disable:!0}};export{o as parameters};

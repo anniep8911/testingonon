@@ -1,0 +1,8 @@
+import{S as k}from"./Button-PC-Bt7iVrlw.js";import{k as P,m as I}from"./fnc-RF4Phh58.js";import"./button-data-DsYMFTGz.js";import"./style-CUJ3xHXS.js";let L="컴포넌트/Button/PC/IconButton",M=`
+<ul>
+  <li>기본적인 버튼 컴포넌트로 다양한 스타일과 상태를 지원합니다</li>
+  <li>모든 버튼은 figma 디자인 시안을 기준으로 하며, 컴포넌트명도 디자인 시안에 명시된 이름을 따릅니다</li>
+  <li>Button, IconButton, TextButton 3가지 타입으로 분류됩니다</li>
+  <li>각 버튼은 able(활성화)과 disabled(비활성화) 상태를 지원합니다</li>
+</ul>
+`;const b=f=>{let e="";switch(f){case"large":e="Large";break;case"medium":e="Medium";break;case"small":e="Small";break;case"xsmall":e="Xsmall";break;default:e=M}return e},w={title:L,parameters:{docs:{description:{component:P(b())},codePanel:!1}}},t=I(k,b,["large","medium","small","xsmall"],"none",["pc","iconButton"]),s=t.large,r=t.medium,a=t.small,o=t.xsmall;var l,m,c;s.parameters={...s.parameters,docs:{...(l=s.parameters)==null?void 0:l.docs,source:{originalSource:'stories["large"]',...(c=(m=s.parameters)==null?void 0:m.docs)==null?void 0:c.source}}};var i,n,u;r.parameters={...r.parameters,docs:{...(i=r.parameters)==null?void 0:i.docs,source:{originalSource:'stories["medium"]',...(u=(n=r.parameters)==null?void 0:n.docs)==null?void 0:u.source}}};var d,p,g;a.parameters={...a.parameters,docs:{...(d=a.parameters)==null?void 0:d.docs,source:{originalSource:'stories["small"]',...(g=(p=a.parameters)==null?void 0:p.docs)==null?void 0:g.source}}};var S,x,B;o.parameters={...o.parameters,docs:{...(S=o.parameters)==null?void 0:S.docs,source:{originalSource:'stories["xsmall"]',...(B=(x=o.parameters)==null?void 0:x.docs)==null?void 0:B.source}}};const E=["Large","Medium","Small","Xsmall"];export{s as Large,r as Medium,a as Small,o as Xsmall,E as __namedExportsOrder,w as default};
