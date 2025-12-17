@@ -44,7 +44,7 @@ export default {
       description: {
         component: marked(md())
       },
-      codePanel: false
+      codePanel: true
     }
   }
 };

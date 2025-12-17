@@ -1,6 +1,5 @@
 import btn from '../assets/button-data';
 import reset from '../../JS/asset/style';
-import ico from '../assets/icon-data';
 
 export const SinglePage = (cat,ext) => {
   const now = btn[ext[0]][ext[1]];
