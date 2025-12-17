@@ -2,7 +2,7 @@ import { SinglePage } from './Controls-PC.js';
 import { marked } from 'marked';
 import makeStories from '../../fnc.js';
 
-let path = '컴포넌트/Controls/PC/Controls';
+let path = '컴포넌트/Controls';
 
 let 공통다큐먼트 = `
 <ul>

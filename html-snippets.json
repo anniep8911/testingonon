@@ -1,0 +1,146 @@
+{
+  "buttonLargePrimary": {
+    "prefix": "buttonLargePrimary",
+    "body": [
+      "<button class=\"button button__large--primary\">Button</button>",
+      "<button class=\"button button__large--primary is--disabled\">Button</button>"
+    ]
+  },
+  "buttonLargeSecondary": {
+    "prefix": "buttonLargeSecondary",
+    "body": [
+      "<button class=\"button button__large--secondary\">Button</button>",
+      "<button class=\"button button__large--secondary is--disabled\">Button</button>"
+    ]
+  },
+  "buttonLargeTertiary": {
+    "prefix": "buttonLargeTertiary",
+    "body": [
+      "<button class=\"button button__large--tertiary\">Button</button>"
+    ]
+  },
+  "buttonMediumPrimary": {
+    "prefix": "buttonMediumPrimary",
+    "body": [
+      "<button class=\"button button__medium--primary\">Button</button>",
+      "<button class=\"button button__medium--primary is--disabled\">Button</button>"
+    ]
+  },
+  "buttonMediumSecondary": {
+    "prefix": "buttonMediumSecondary",
+    "body": [
+      "<button class=\"button button__medium--secondary\">Button</button>",
+      "<button class=\"button button__medium--secondary is--disabled\">Button</button>"
+    ]
+  },
+  "buttonMediumTertiary": {
+    "prefix": "buttonMediumTertiary",
+    "body": [
+      "<button class=\"button button__medium--tertiary\">Button</button>"
+    ]
+  },
+  "buttonSmallPrimary": {
+    "prefix": "buttonSmallPrimary",
+    "body": [
+      "<button class=\"button button__small--primary\">Button</button>",
+      "<button class=\"button button__small--primary is--disabled\">Button</button>"
+    ]
+  },
+  "buttonSmallSecondary": {
+    "prefix": "buttonSmallSecondary",
+    "body": [
+      "<button class=\"button button__small--secondary\">Button</button>",
+      "<button class=\"button button__small--secondary is--disabled\">Button</button>"
+    ]
+  },
+  "buttonSmallTertiary": {
+    "prefix": "buttonSmallTertiary",
+    "body": [
+      "<button class=\"button button__small--tertiary\">Button</button>"
+    ]
+  },
+  "buttonXsmallPrimary": {
+    "prefix": "buttonXsmallPrimary",
+    "body": [
+      "<button class=\"button button__xsmall--primary\">Button</button>",
+      "<button class=\"button button__xsmall--primary is--disabled\">Button</button>"
+    ]
+  },
+  "buttonXsmallSecondary": {
+    "prefix": "buttonXsmallSecondary",
+    "body": [
+      "<button class=\"button button__xsmall--secondary\">Button</button>",
+      "<button class=\"button button__xsmall--secondary is--disabled\">Button</button>"
+    ]
+  },
+  "buttonXsmallTertiary": {
+    "prefix": "buttonXsmallTertiary",
+    "body": [
+      "<button class=\"button button__xsmall--tertiary\">Button</button>"
+    ]
+  },
+  "textButtonTextIconLarge": {
+    "prefix": "textButtonTextIconLarge",
+    "body": [
+      "<a class=\"text-button text-button--icon\">Label &gt;</a>"
+    ]
+  },
+  "textButtonTextOnlyLarge": {
+    "prefix": "textButtonTextOnlyLarge",
+    "body": [
+      "<a class=\"text-button text-button--text-only\">Label</a>"
+    ]
+  },
+  "textButtonTextIconMedium": {
+    "prefix": "textButtonTextIconMedium",
+    "body": [
+      "<a class=\"text-button text-button--icon-13\"><span class=\"icon-info\">ⓘ</span> Label</a>"
+    ]
+  },
+  "textButtonUnderlineMedium": {
+    "prefix": "textButtonUnderlineMedium",
+    "body": [
+      "<a class=\"text-button text-button--underline-13\">Label</a>"
+    ]
+  },
+  "textButtonUnderlineColorMedium": {
+    "prefix": "textButtonUnderlineColorMedium",
+    "body": [
+      "<a class=\"text-button text-button--underline-color-13\">Label</a>"
+    ]
+  },
+  "textButtonTextIconSmall": {
+    "prefix": "textButtonTextIconSmall",
+    "body": [
+      "<a class=\"text-button text-button--icon-12\">Label &gt;</a>"
+    ]
+  },
+  "iconButtonLarge": {
+    "prefix": "iconButtonLarge",
+    "body": [
+      "<button class=\"icon-button icon-button__large\"><img class=\"icon ic-message_20px\" src=\"./ic-message_20px.svg\" alt=\"ic-message_20px\"> Label</button>",
+      "<button class=\"icon-button icon-button__large is--disabled\"><img class=\"icon ic-message_20px\" src=\"./ic-message_20px.svg\" alt=\"ic-message_20px\"/> Label</button>"
+    ]
+  },
+  "iconButtonMedium": {
+    "prefix": "iconButtonMedium",
+    "body": [
+      "<button class=\"icon-button icon-button__medium\"><img class=\"icon ic-message_20px\" src=\"./ic-message_20px.svg\" alt=\"ic-message_20px\"/> Label</button>",
+      "<button class=\"icon-button icon-button__medium is--disabled\"><img class=\"icon ic-message_20px\" src=\"./ic-message_20px.svg\" alt=\"ic-message_20px\"/> Label</button>"
+    ]
+  },
+  "iconButtonSmall": {
+    "prefix": "iconButtonSmall",
+    "body": [
+      "<button class=\"icon-button icon-button__small\"><img class=\"icon ic-message_20px\" src=\"./ic-message_20px.svg\" alt=\"ic-message_20px\"/> Label</button>",
+      "<button class=\"icon-button icon-button__small is--disabled\"><img class=\"icon ic-message_20px\" src=\"./ic-message_20px.svg\" alt=\"ic-message_20px\"/> Label</button>"
+    ]
+  },
+  "iconButtonXsmall": {
+    "prefix": "iconButtonXsmall",
+    "body": [
+      "<button class=\"icon-button icon-button__xsmall\"><img class=\"icon ic-message_20px\" src=\"./ic-message_20px.svg\" alt=\"ic-message_20px\"/> Label</button>",
+      "<button class=\"icon-button icon-button__xsmall is--disabled\"><img class=\"icon ic-message_20px\" src=\"./ic-message_20px.svg\" alt=\"ic-message_20px\"/> Label</button>"
+    ]
+  }
+}
