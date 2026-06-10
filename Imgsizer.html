@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>색상 박스 기반 텍스트 추출기</title>
+    <script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        #drop-zone { border: 3px dashed #007bff; padding: 40px; text-align: center; color: #007bff; cursor: pointer; margin-bottom: 20px; }
+        #preview { max-width: 300px; margin-bottom: 20px; border: 2px solid #ddd; }
+        .result-item { background: #f8f9fa; border: 1px solid #ddd; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+        .copy-btn { margin-left: 10px; cursor: pointer; background: #e9ecef; border: 1px solid #ccc; padding: 2px 8px; font-size: 12px; }
+        code { background: #eee; padding: 2px 4px; }
+        .wrap { display: flex; column-gap: 20px; }
+        
+        /* 토스트 스타일 */
+        #toast { visibility: hidden; min-width: 250px; background-color: #333; color: #fff; text-align: center; border-radius: 4px; padding: 16px; position: fixed; z-index: 1; bottom: 30px; left: 50%; transform: translateX(-50%); }
+        #toast.show { visibility: visible; animation: fadein 0.5s, fadeout 0.5s 2.5s; }
+        @keyframes fadein { from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;} }
+        @keyframes fadeout { from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;} }
+    </style>
+</head>
+<body>
+
+    <h2>이미지 파일 분석기</h2>
+    <div id="drop-zone">이미지 파일을 드래그 앤 드롭 하세요</div>
+    
+    <div class="wrap">
+      <div id="preview-container" style="display:none;">
+          <img id="preview" src="" alt="미리보기">
+      </div>
+      <div id="result"></div>
+    </div>
+
+    <div id="toast">복사되었습니다!</div>
+
+    <script>
+        const dropZone = document.getElementById('drop-zone');
+        const resultDiv = document.getElementById('result');
+        const preview = document.getElementById('preview');
+        const toast = document.getElementById('toast');
+
+        // 토스트 표시 함수
+        function showToast() {
+            toast.className = "show";
+            setTimeout(() => { toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        dropZone.ondragover = e => e.preventDefault();
+        dropZone.ondrop = async e => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            if (!file) return;
+
+            preview.src = URL.createObjectURL(file);
+            document.getElementById('preview-container').style.display = 'block';
+            resultDiv.innerText = "분석 중...";
+
+            const img = await loadImage(file);
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width; canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            
+            const imageData = ctx.getImageData(0, 0, img.width, img.height).data;
+            const objects = findColorBoxes(imageData, img.width, img.height);
+
+            resultDiv.innerHTML = `<h3>추출 결과 (${objects.length}개 항목)</h3>`;
+            const isMob = file.name.toLowerCase().includes('mob');
+
+            for (const obj of objects) {
+                const subCanvas = document.createElement('canvas');
+                subCanvas.width = obj.w; subCanvas.height = obj.h;
+                subCanvas.getContext('2d').drawImage(canvas, obj.left, obj.top, obj.w, obj.h, 0, 0, obj.w, obj.h);
+                
+                const { data: { text } } = await Tesseract.recognize(subCanvas, 'kor', { tessedit_pageseg_mode: '7' });
+                const styleVal = isMob ? 
+                    `width: ${(obj.w/img.width*100).toFixed(2)}%; height: ${(obj.h/img.width*100).toFixed(2)}vw; top: ${(obj.top/img.width*100).toFixed(2)}vw; left: ${(obj.left/img.width*100).toFixed(2)}%;` :
+                    `width: ${obj.w}px; height: ${obj.h}px; top: ${obj.top}px; left: ${obj.left}px;`;
+
+                if (text.trim().length > 0) {
+                    const item = document.createElement('div');
+                    item.className = 'result-item';
+                    item.innerHTML = `
+                        <div>Style: <code>${styleVal}</code> <button class="copy-btn" onclick="copyText('${styleVal}')">복사</button></div>
+                        <div>Text: <b>${text.trim()}</b> <button class="copy-btn" onclick="copyText('${text.trim()}')">복사</button></div>
+                    `;
+                    resultDiv.appendChild(item);
+                }
+            }
+        };
+
+        function copyText(txt) {
+            navigator.clipboard.writeText(txt).then(() => showToast());
+        }
+
+        // 색상 박스 탐색 함수 및 로드 함수는 이전과 동일
+        function findColorBoxes(data, width, height) {
+            const visited = new Uint8Array(width * height);
+            const objects = [];
+            const target = { r: 31, g: 255, b: 0 }; 
+
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const idx = y * width + x;
+                    if (!visited[idx] && Math.abs(data[idx*4]-target.r) < 40 && Math.abs(data[idx*4+1]-target.g) < 40 && Math.abs(data[idx*4+2]-target.b) < 40) {
+                        let minX = x, maxX = x, minY = y, maxY = y;
+                        const queue = [[x, y]]; visited[idx] = 1;
+                        while(queue.length > 0) {
+                            const [cx, cy] = queue.shift();
+                            minX = Math.min(minX, cx); maxX = Math.max(maxX, cx);
+                            minY = Math.min(minY, cy); maxY = Math.max(maxY, cy);
+                            for(let dy=-1; dy<=1; dy++) for(let dx=-1; dx<=1; dx++) {
+                                const nx=cx+dx, ny=cy+dy;
+                                if(nx>=0 && nx<width && ny>=0 && ny<height) {
+                                    const nIdx = ny * width + nx;
+                                    if(!visited[nIdx] && Math.abs(data[nIdx*4]-target.r) < 40 && Math.abs(data[nIdx*4+1]-target.g) < 40 && Math.abs(data[nIdx*4+2]-target.b) < 40) {
+                                        visited[nIdx] = 1; queue.push([nx, ny]);
+                                    }
+                                }
+                            }
+                        }
+                        if ((maxX - minX + 1) >= 8 && (maxY - minY + 1) >= 8) objects.push({ top: minY, left: minX, w: maxX - minX + 1, h: maxY - minY + 1 });
+                    }
+                }
+            }
+            return objects;
+        }
+
+        function loadImage(f) {
+            return new Promise(r => {
+                const reader = new FileReader();
+                reader.onload = e => { const i = new Image(); i.onload = () => r(i); i.src = e.target.result; };
+                reader.readAsDataURL(f);
+            });
+        }
+    </script>
+</body>
+</html>
