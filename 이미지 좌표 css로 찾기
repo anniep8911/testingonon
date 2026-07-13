@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <title>인터랙티브 OCR 영역 추출기 (원본 기준)</title>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+        background-color: #f4f4f9;
+      }
+      .controls {
+        margin-bottom: 20px;
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .controls label {
+        font-size: 14px;
+        font-weight: bold;
+      }
+      #canvas-container {
+        position: relative;
+        display: inline-block;
+        cursor: crosshair;
+        user-select: none;
+      }
+      #mainCanvas {
+        display: block;
+        border: 1px solid #ccc;
+        max-width: 100%;
+        height: auto;
+      }
+      .selection-box {
+        position: absolute;
+        box-sizing: border-box;
+        z-index: 10;
+        cursor: move;
+        outline: 2px solid currentColor;
+        outline-offset: -2px;
+      }
+      .handle {
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        background: red;
+        z-index: 20;
+      }
+      .h-n {
+        top: -6px;
+        left: 50%;
+        cursor: n-resize;
+        transform: translateX(-50%);
+      }
+      .h-s {
+        bottom: -6px;
+        left: 50%;
+        cursor: s-resize;
+        transform: translateX(-50%);
+      }
+      .h-e {
+        right: -6px;
+        top: 50%;
+        cursor: e-resize;
+        transform: translateY(-50%);
+      }
+      .h-w {
+        left: -6px;
+        top: 50%;
+        cursor: w-resize;
+        transform: translateY(-50%);
+      }
+      .h-ne {
+        top: -6px;
+        right: -6px;
+        cursor: ne-resize;
+      }
+      .h-nw {
+        top: -6px;
+        left: -6px;
+        cursor: nw-resize;
+      }
+      .h-se {
+        bottom: -6px;
+        right: -6px;
+        cursor: se-resize;
+      }
+      .h-sw {
+        bottom: -6px;
+        left: -6px;
+        cursor: sw-resize;
+      }
+      .wrap {
+        display: flex;
+        gap: 20px;
+      }
+      .wrap > * {
+        width: 50%;
+      }
+      .result-item {
+        background: #fff;
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 8px;
+        border-left: 10px solid;
+      }
+      .result-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-top: 8px;
+        gap: 10px;
+      }
+      .result-row > div {
+        flex-grow: 1;
+      }
+      code {
+        background: #eee;
+        padding: 2px 4px;
+        color: #d63384;
+        font-weight: bold;
+        display: block;
+        margin-top: 3px;
+        white-space: pre-wrap;
+      }
+      .copy-btn {
+        padding: 4px 8px;
+        font-size: 12px;
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        white-space: nowrap;
+        margin-top: 3px;
+      }
+      .copy-btn:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>OCR 영역 추출기 (원본 이미지 기준 % 환산)</h2>
+    <div class="controls">
+      <div>
+        <label>모드: </label>
+        <select id="mode-selector" onchange="updateAllResults()">
+          <option value="pc">PC (px)</option>
+          <option value="mob">Mobile (%) 변환</option>
+        </select>
+      </div>
+    </div>
+
+    <div
+      style="
+        background: #f0f7ff;
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #b3d7ff;
+        margin-bottom: 30px;
+        color: #333;
+      "
+    >
+      <h3 style="margin-top: 0; color: #0056b3">🚀 OCR 영역 추출기 사용법</h3>
+      <p style="line-height: 1.6">
+        이 도구는 이미지 내 특정 영역의 텍스트를 추출하고, 해당 영역의 <strong>CSS 좌표값(Style)</strong>을 자동으로
+        생성해줍니다.
+      </p>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px">
+        <ol style="line-height: 1.8; padding-left: 20px">
+          <li><strong>이미지 불러오기:</strong> 분석할 이미지 파일을 점선 박스 안으로 드래그 앤 드롭하세요.</li>
+          <li><strong>영역 지정:</strong> 이미지 위에서 마우스로 드래그하면 텍스트를 추출할 영역이 생성됩니다.</li>
+          <li>
+            <strong>영역 조절:</strong> 상자 모서리의 <strong>빨간 점(핸들)</strong>을 잡고 드래그하면 크기를 미세하게
+            조절할 수 있습니다.
+          </li>
+          <li>
+            <strong>모드 선택:</strong> 상단 메뉴에서 <strong>PC(px)</strong> 또는 <strong>Mobile(%)</strong> 단위를
+            선택하여 좌표 스타일을 변경하세요.
+          </li>
+        </ol>
+        <div style="background: white; padding: 15px; border-radius: 8px; border: 1px dashed #007bff; font-size: 0.9em">
+          <strong>💡 팁:</strong>
+          <ul style="padding-left: 20px; margin-top: 5px">
+            <li>영역 상자를 클릭한 채 움직이면 위치를 옮길 수 있습니다.</li>
+            <li>
+              [스타일 복사] 버튼을 누르면 개발에 바로 사용할 수 있는 <code>position: absolute; ...</code> 코드가
+              클립보드에 복사됩니다.
+            </li>
+            <li>
+              한글과 영문이 혼용된 이미지도 인식됩니다. 단, 완벽하게 되지않을 수 있으므로 반드시 확인이 필요합니다 .
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="drop-zone"
+      style="border: 3px dashed #007bff; padding: 40px; text-align: center; margin-bottom: 20px; background: white"
+    >
+      이미지 파일을 드래그 앤 드롭 하세요
+    </div>
+
+    <div class="wrap">
+      <div id="canvas-container" style="display: none">
+        <canvas id="mainCanvas"></canvas>
+      </div>
+      <div id="result"><h3>추출 결과</h3></div>
+    </div>
+
+    <script>
+      const canvas = document.getElementById("mainCanvas"),
+        ctx = canvas.getContext("2d"),
+        resultDiv = document.getElementById("result");
+      const container = document.getElementById("canvas-container");
+      let img = new Image(),
+        startX,
+        startY,
+        isDrawing = false,
+        isResizing = false,
+        isMoving = false,
+        currentBox = null,
+        resizeDir = null;
+
+      document.getElementById("drop-zone").ondragover = (e) => e.preventDefault();
+      document.getElementById("drop-zone").ondrop = (e) => {
+        e.preventDefault();
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          img.src = ev.target.result;
+          container.style.display = "inline-block";
+        };
+        reader.readAsDataURL(e.dataTransfer.files[0]);
+      };
+      img.onload = () => {
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        updateAllResults();
+      };
+
+      container.addEventListener("mousedown", (e) => {
+        if (e.target.classList.contains("handle")) {
+          isResizing = true;
+          resizeDir = e.target.dataset.dir;
+          currentBox = e.target.parentElement;
+        } else if (e.target.classList.contains("selection-box")) {
+          isMoving = true;
+          currentBox = e.target;
+        } else if (e.target === canvas) {
+          isDrawing = true;
+          const rect = container.getBoundingClientRect();
+          currentBox = createBox(e.clientX - rect.left, e.clientY - rect.top, 0, 0);
+        }
+        startX = e.clientX;
+        startY = e.clientY;
+        e.stopPropagation();
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!isDrawing && !isResizing && !isMoving) return;
+        const dx = e.clientX - startX,
+          dy = e.clientY - startY;
+        if (isDrawing) {
+          currentBox.style.width = Math.max(0, parseInt(currentBox.style.width || 0) + dx) + "px";
+          currentBox.style.height = Math.max(0, parseInt(currentBox.style.height || 0) + dy) + "px";
+        } else if (isMoving) {
+          currentBox.style.left = parseInt(currentBox.style.left) + dx + "px";
+          currentBox.style.top = parseInt(currentBox.style.top) + dy + "px";
+        } else if (isResizing) {
+          if (resizeDir.includes("e"))
+            currentBox.style.width = Math.max(0, parseInt(currentBox.style.width) + dx) + "px";
+          if (resizeDir.includes("s"))
+            currentBox.style.height = Math.max(0, parseInt(currentBox.style.height) + dy) + "px";
+          if (resizeDir.includes("w")) {
+            currentBox.style.left = parseInt(currentBox.style.left) + dx + "px";
+            currentBox.style.width = Math.max(0, parseInt(currentBox.style.width) - dx) + "px";
+          }
+          if (resizeDir.includes("n")) {
+            currentBox.style.top = parseInt(currentBox.style.top) + dy + "px";
+            currentBox.style.height = Math.max(0, parseInt(currentBox.style.height) - dy) + "px";
+          }
+        }
+        startX = e.clientX;
+        startY = e.clientY;
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (isDrawing || isResizing || isMoving) performOCR(currentBox);
+        isDrawing = isResizing = isMoving = false;
+      });
+
+      function createBox(x, y, w, h) {
+        const box = document.createElement("div");
+        box.className = "selection-box";
+        box.style.cssText = `left:${x}px; top:${y}px; width:${w}px; height:${h}px; color:hsl(${
+          Math.random() * 360
+        },70%,50%);`;
+        ["n", "s", "e", "w", "ne", "nw", "se", "sw"].forEach((dir) => {
+          const hDiv = document.createElement("div");
+          hDiv.className = `handle h-${dir}`;
+          hDiv.dataset.dir = dir;
+          box.appendChild(hDiv);
+        });
+        container.appendChild(box);
+        return box;
+      }
+
+      async function performOCR(box) {
+        const scaleX = img.width / canvas.offsetWidth,
+          scaleY = img.height / canvas.offsetHeight;
+        const rect = {
+          x: parseInt(box.style.left) * scaleX,
+          y: parseInt(box.style.top) * scaleY,
+          w: parseInt(box.style.width) * scaleX,
+          h: parseInt(box.style.height) * scaleY,
+          color: box.style.color,
+        };
+        const sub = document.createElement("canvas");
+        sub.width = Math.max(1, rect.w);
+        sub.height = Math.max(1, rect.h);
+        sub.getContext("2d").drawImage(canvas, rect.x, rect.y, rect.w, rect.h, 0, 0, sub.width, sub.height);
+        const {
+          data: { text },
+        } = await Tesseract.recognize(sub, "kor+eng");
+        if (!box.dataset.id) box.dataset.id = Date.now();
+        let item = document.getElementById("res-" + box.dataset.id);
+        if (!item) {
+          item = document.createElement("div");
+          item.id = "res-" + box.dataset.id;
+          item.className = "result-item";
+          item.style.borderLeftColor = rect.color;
+          resultDiv.appendChild(item);
+        }
+        item.dataset.rect = JSON.stringify(rect);
+        item.innerHTML = renderResult(rect, text.trim());
+        attachCopyEvents(item);
+      }
+
+      function renderResult(rect, text) {
+        const mode = document.getElementById("mode-selector").value;
+
+        const pL = ((rect.x / img.width) * 100).toFixed(2) + "%";
+        const pT = ((rect.y / img.height) * 100).toFixed(2) + "%";
+        const pW = ((rect.w / img.width) * 100).toFixed(2) + "%";
+        const pH = ((rect.h / img.height) * 100).toFixed(2) + "%";
+
+        let styleStr = "";
+        if (mode === "mob") {
+          styleStr = `position: absolute; left: ${pL}; top: ${pT}; width: ${pW}; height: ${pH};`;
+        } else {
+          styleStr = `position: absolute; left: ${Math.round(rect.x)}px; top: ${Math.round(
+            rect.y
+          )}px; width: ${Math.round(rect.w)}px; height: ${Math.round(rect.h)}px;`;
+        }
+
+        return `
+          <div class="result-row">
+            <div>Style: <code class="style-code">${styleStr}</code></div>
+            <button class="copy-btn" data-type="style">스타일 복사</button>
+          </div>
+          <div class="result-row">
+            <div>Text: <b class="text-val">${text}</b></div>
+            <button class="copy-btn" data-type="text">텍스트 복사</button>
+          </div>
+        `;
+      }
+
+      function attachCopyEvents(item) {
+        item.querySelectorAll(".copy-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const type = btn.dataset.type;
+            let valToCopy = "";
+            if (type === "style") {
+              valToCopy = item.querySelector(".style-code").innerText;
+            } else {
+              valToCopy = item.querySelector(".text-val").innerText;
+            }
+
+            navigator.clipboard.writeText(valToCopy).then(() => {
+              const origText = btn.innerText;
+              btn.innerText = "복사됨!";
+              setTimeout(() => {
+                btn.innerText = origText;
+              }, 1500);
+            });
+          });
+        });
+      }
+
+      function updateAllResults() {
+        document.querySelectorAll(".result-item").forEach((item) => {
+          const rect = JSON.parse(item.dataset.rect);
+          const text = item.querySelector(".text-val").innerText;
+          item.innerHTML = renderResult(rect, text);
+          attachCopyEvents(item);
+        });
+      }
+    </script>
+  </body>
+</html>
+
