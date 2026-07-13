@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>이미지 분할 및 압축 다운로드 (개선판)</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <style>
+      body {
+        font-family: sans-serif;
+        padding: 20px;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+      }
+
+      #settings-bar {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        background: #fff;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+      }
+
+      .color-picker-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      input[type="color"] {
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .hex-display {
+        font-family: monospace;
+        background: #eee;
+        padding: 6px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      .btn-copy {
+        background: #555;
+        color: white;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 12px;
+      }
+
+      .btn-copy:hover {
+        background: #333;
+      }
+
+      #drop-zone {
+        border: 3px dashed #666;
+        padding: 40px;
+        text-align: center;
+        color: #666;
+        margin-bottom: 20px;
+        cursor: pointer;
+        background: #fff;
+        border-radius: 8px;
+      }
+
+      #actions {
+        margin-bottom: 20px;
+        display: none;
+      }
+
+      .btn-download {
+        background: #4caf50;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .btn-download:hover {
+        background: #45a049;
+      }
+
+      .item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5px;
+        background: #fff;
+        padding: 10px;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      }
+
+      .thumb {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h2>이미지 가이드선 분할 도구 (오류 보완판)</h2>
+
+    <div id="settings-bar">
+      <div class="color-picker-wrapper">
+        <label for="line-color"><strong>구분선 컬러 설정:</strong></label>
+        <input type="color" id="line-color" value="#00ff00" />
+      </div>
+
+      <div class="hex-display" id="hex-val">#00ff00</div>
+
+      <button class="btn-copy" onclick="copyColorCode()">색상 코드 복사</button>
+    </div>
+
+    <div id="drop-zone">원본 이미지와 가이드(_cut) 파일을 함께 드래그 앤 드롭 하세요</div>
+    <div
+      style="
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      "
+    >
+      <h3 style="margin-top: 0; color: #333">💡 더 자세한 사용 가이드</h3>
+
+      <ul style="line-height: 1.9; color: #444; padding-left: 20px">
+        <li>
+          <strong>1. 파일 준비 (필수):</strong> 원본 이미지와 가이드선이 그려진 <strong>두 개의 파일</strong>이 한
+          세트입니다.<br />
+          <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px">예: 이미지.png</code> +
+          <code style="background: #f0f0f0; padding: 2px 6px; border-radius: 4px">이미지_cut.png</code>
+        </li>
+        <li>
+          <strong>2. 파일 이름 규칙:</strong> 가이드 파일은 반드시 원본 파일 이름 뒤에 <strong>_cut</strong>이 붙어야
+          합니다.<br />
+          <span style="font-size: 0.9em; color: #d9534f"
+            >※ 원본이 <span style="font-weight: bold">photo.jpg</span>라면, 가이드 파일은 반드시
+            <span style="font-weight: bold">photo_cut.jpg</span>여야 인식됩니다.</span
+          >
+        </li>
+        <li>
+          <strong>3. 해상도 및 크기 확인:</strong> 원본과 가이드 파일의 가로/세로 픽셀 사이즈가
+          <strong>완벽하게 일치</strong>해야 합니다. (수정하거나 자른 이미지는 오작동의 원인이 됩니다.)
+        </li>
+        <li>
+          <strong>4. 컬러 피커(상단 메뉴) 설정:</strong> 가이드 파일 속 <strong>'선'의 색상</strong>을 정확히
+          선택하세요.<br />
+          <span style="font-size: 0.9em; color: #555"
+            >- 가이드선이 초록색(#00ff00)이라면 컬러 피커도 초록색으로 맞춥니다.</span
+          ><br />
+          <span style="font-size: 0.9em; color: #555"
+            >- 잘못된 색상을 선택하면 도구가 선을 찾지 못하거나 분할되지 않습니다.</span
+          >
+        </li>
+        <li>
+          <strong>5. 실행 및 다운로드:</strong> 두 파일을 한꺼번에 드래그 앤 드롭하면 즉시 분석이 시작됩니다. 분석 후
+          하단의 <strong>[전체 압축 파일 다운로드]</strong>를 클릭하세요.
+        </li>
+      </ul>
+    </div>
+
+    <div id="actions">
+      <button class="btn-download" onclick="downloadAll()">전체 압축 파일(.zip) 다운로드</button>
+
+      <hr style="border: 0; height: 1px; background: #ccc; margin: 20px 0" />
+
+      <div id="file-list"></div>
+    </div>
+
+    <script>
+      const dropZone = document.getElementById("drop-zone");
+      const actions = document.getElementById("actions");
+      const fileList = document.getElementById("file-list");
+      const colorPicker = document.getElementById("line-color");
+      const hexValDisplay = document.getElementById("hex-val");
+
+      let generatedParts = [];
+      let targetRGB = { r: 0, g: 255, b: 0 };
+
+      colorPicker.addEventListener("input", (e) => {
+        const hex = e.target.value;
+        hexValDisplay.textContent = hex;
+        targetRGB = hexToRgb(hex);
+      });
+
+      targetRGB = hexToRgb(colorPicker.value);
+
+      function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result
+          ? {
+              r: parseInt(result[1], 16),
+              g: parseInt(result[2], 16),
+              b: parseInt(result[3], 16),
+            }
+          : { r: 0, g: 255, b: 0 };
+      }
+
+      function copyColorCode() {
+        navigator.clipboard
+          .writeText(colorPicker.value)
+          .then(() => {
+            alert(`코드가 복사되었습니다: ${colorPicker.value}`);
+          })
+          .catch((err) => {
+            alert("복사에 실패했습니다. 수동으로 복사해주세요.");
+          });
+      }
+
+      dropZone.ondragover = (e) => e.preventDefault();
+
+      dropZone.ondrop = async (e) => {
+        e.preventDefault();
+        const files = Array.from(e.dataTransfer.files);
+        const origFile = files.find((f) => !f.name.includes("_cut"));
+        const guideFile = files.find((f) => f.name.includes("_cut"));
+        if (!origFile || !guideFile) return alert("파일을 확인해주세요! (_cut 파일이 필요합니다)");
+
+        generatedParts.forEach((p) => URL.revokeObjectURL(p.url));
+        fileList.innerHTML = "";
+        generatedParts = [];
+
+        const baseName = origFile.name.split(".").slice(0, -1).join(".");
+        const gImg = await loadImage(guideFile);
+        const oImg = await loadImage(origFile);
+
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+        canvas.width = gImg.width;
+        canvas.height = gImg.height;
+        ctx.drawImage(gImg, 0, 0);
+        const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+
+        const isLine = (y) => {
+          let matchedPixels = 0;
+          for (let x = 0; x < canvas.width; x++) {
+            const idx = (y * canvas.width + x) * 4;
+            if (
+              Math.abs(data[idx] - targetRGB.r) < 45 &&
+              Math.abs(data[idx + 1] - targetRGB.g) < 45 &&
+              Math.abs(data[idx + 2] - targetRGB.b) < 45 &&
+              data[idx + 3] > 80
+            )
+              matchedPixels++;
+          }
+          return matchedPixels / canvas.width > 0.3;
+        };
+
+        let currentTop = 0;
+        let partIndex = 1;
+        let wasLine = false; // 직전 줄이 선이었는지 기억
+
+        for (let y = 0; y <= canvas.height; y++) {
+          const currentIsLine = y < canvas.height ? isLine(y) : false;
+
+          // 선이 새로 시작되는 지점(이전 줄은 선이 아니었는데 현재 줄은 선인 경우)
+          if (currentIsLine && !wasLine) {
+            const h = y - currentTop;
+            if (h > 0) {
+              const c = document.createElement("canvas");
+              c.width = oImg.width;
+              c.height = h;
+              c.getContext("2d").drawImage(oImg, 0, currentTop, oImg.width, h, 0, 0, oImg.width, h);
+
+              await new Promise((resolve) => {
+                c.toBlob((blob) => {
+                  const url = URL.createObjectURL(blob);
+                  const fileName = `${baseName}_${partIndex}.png`;
+                  generatedParts.push({ name: fileName, blob: blob, url: url });
+
+                  const div = document.createElement("div");
+                  div.className = "item";
+                  div.innerHTML = `<img src="${url}" class="thumb"> <span>${fileName}</span> <a href="${url}" download="${fileName}">개별 다운로드</a>`;
+                  fileList.appendChild(div);
+                  partIndex++;
+                  resolve();
+                }, "image/png");
+              });
+            }
+            // 다음 조각의 시작점은 현재 선이 시작된 Y좌표로 설정
+            currentTop = y;
+          }
+          wasLine = currentIsLine;
+        }
+
+        // 마지막 남은 부분 처리
+        if (currentTop < canvas.height) {
+          const h = canvas.height - currentTop;
+          const c = document.createElement("canvas");
+          c.width = oImg.width;
+          c.height = h;
+          c.getContext("2d").drawImage(oImg, 0, currentTop, oImg.width, h, 0, 0, oImg.width, h);
+          await new Promise((resolve) => {
+            c.toBlob((blob) => {
+              const url = URL.createObjectURL(blob);
+              const fileName = `${baseName}_${partIndex}.png`;
+              generatedParts.push({ name: fileName, blob: blob, url: url });
+              const div = document.createElement("div");
+              div.className = "item";
+              div.innerHTML = `<img src="${url}" class="thumb"> <span>${fileName}</span> <a href="${url}" download="${fileName}">개별 다운로드</a>`;
+              fileList.appendChild(div);
+              resolve();
+            }, "image/png");
+          });
+        }
+        actions.style.display = "block";
+      };
+      async function downloadAll() {
+        const zip = new JSZip();
+        generatedParts.forEach((p) => zip.file(p.name, p.blob));
+        const blob = await zip.generateAsync({ type: "blob" });
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = "images.zip";
+        link.click();
+      }
+
+      function loadImage(f) {
+        return new Promise((r) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const i = new Image();
+            i.onload = () => r(i);
+            i.src = e.target.result;
+          };
+          reader.readAsDataURL(f);
+        });
+      }
+    </script>
+  </body>
+</html>
